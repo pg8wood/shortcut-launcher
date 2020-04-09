@@ -15,6 +15,10 @@
 		B8876E19243F9AE400583FE9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8876E17243F9AE400583FE9 /* LaunchScreen.storyboard */; };
 		B8876E24243F9AE400583FE9 /* shortcut_launcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8876E23243F9AE400583FE9 /* shortcut_launcherTests.swift */; };
 		B8876E2F243F9AE400583FE9 /* shortcut_launcherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8876E2E243F9AE400583FE9 /* shortcut_launcherUITests.swift */; };
+		B8876E3F243FACC800583FE9 /* Shortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8876E3E243FACC800583FE9 /* Shortcut.swift */; };
+		B8876E42243FC0DE00583FE9 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = B8876E41243FC0DE00583FE9 /* Intents.intentdefinition */; };
+		B8AB986E243FC41400C8F6F6 /* ShortcutIntentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AB986D243FC41400C8F6F6 /* ShortcutIntentState.swift */; };
+		B8AB9870243FC7E800C8F6F6 /* ShortcutInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AB986F243FC7E800C8F6F6 /* ShortcutInputView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +53,11 @@
 		B8876E2A243F9AE400583FE9 /* shortcut-launcherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "shortcut-launcherUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8876E2E243F9AE400583FE9 /* shortcut_launcherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shortcut_launcherUITests.swift; sourceTree = "<group>"; };
 		B8876E30243F9AE400583FE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B8876E3E243FACC800583FE9 /* Shortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcut.swift; sourceTree = "<group>"; };
+		B8876E40243FBEB300583FE9 /* shortcut-launcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "shortcut-launcher.entitlements"; sourceTree = "<group>"; };
+		B8876E41243FC0DE00583FE9 /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
+		B8AB986D243FC41400C8F6F6 /* ShortcutIntentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutIntentState.swift; sourceTree = "<group>"; };
+		B8AB986F243FC7E800C8F6F6 /* ShortcutInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutInputView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +88,7 @@
 		B8876E00243F9AE200583FE9 = {
 			isa = PBXGroup;
 			children = (
+				B8876E41243FC0DE00583FE9 /* Intents.intentdefinition */,
 				B8876E0B243F9AE200583FE9 /* shortcut-launcher */,
 				B8876E22243F9AE400583FE9 /* shortcut-launcherTests */,
 				B8876E2D243F9AE400583FE9 /* shortcut-launcherUITests */,
@@ -99,9 +109,13 @@
 		B8876E0B243F9AE200583FE9 /* shortcut-launcher */ = {
 			isa = PBXGroup;
 			children = (
+				B8876E40243FBEB300583FE9 /* shortcut-launcher.entitlements */,
 				B8876E0C243F9AE200583FE9 /* AppDelegate.swift */,
 				B8876E0E243F9AE200583FE9 /* SceneDelegate.swift */,
+				B8AB986D243FC41400C8F6F6 /* ShortcutIntentState.swift */,
+				B8AB986F243FC7E800C8F6F6 /* ShortcutInputView.swift */,
 				B8876E10243F9AE200583FE9 /* ContentView.swift */,
+				B8876E3E243FACC800583FE9 /* Shortcut.swift */,
 				B8876E12243F9AE300583FE9 /* Assets.xcassets */,
 				B8876E17243F9AE400583FE9 /* LaunchScreen.storyboard */,
 				B8876E1A243F9AE400583FE9 /* Info.plist */,
@@ -268,8 +282,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8876E0D243F9AE200583FE9 /* AppDelegate.swift in Sources */,
+				B8876E3F243FACC800583FE9 /* Shortcut.swift in Sources */,
 				B8876E0F243F9AE200583FE9 /* SceneDelegate.swift in Sources */,
+				B8AB986E243FC41400C8F6F6 /* ShortcutIntentState.swift in Sources */,
+				B8876E42243FC0DE00583FE9 /* Intents.intentdefinition in Sources */,
 				B8876E11243F9AE200583FE9 /* ContentView.swift in Sources */,
+				B8AB9870243FC7E800C8F6F6 /* ShortcutInputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,7 +384,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -420,7 +438,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -434,6 +452,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "shortcut-launcher/shortcut-launcher.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"shortcut-launcher/Preview Content\"";
 				DEVELOPMENT_TEAM = GZZH6JZ9Q5;
@@ -454,6 +473,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "shortcut-launcher/shortcut-launcher.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"shortcut-launcher/Preview Content\"";
 				DEVELOPMENT_TEAM = GZZH6JZ9Q5;
