@@ -61,6 +61,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         shortcutIntentState.isRequestingUserInput = true
-        shortcutIntentState.currentPrompt = intent.prompt
+        shortcutIntentState.currentPrompt = intent.prompt ?? ""
     }
 }

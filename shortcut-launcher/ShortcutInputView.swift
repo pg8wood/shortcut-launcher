@@ -12,11 +12,15 @@ struct ShortcutInputView: View {
     @EnvironmentObject var shortcutIntentState: ShortcutIntentState
     @State private var input: String = ""
     
+    var prompt: String {
+        shortcutIntentState.currentPrompt.isEmpty ? "Enter your response" : shortcutIntentState.currentPrompt
+    }
+    
     var body: some View {
         VStack {
             Text("Responding to Shortcuts")
                 .font(.title)
-            TextField(shortcutIntentState.currentPrompt ?? "Input", text: $input, onCommit: {
+            TextField(prompt, text: $input, onCommit: {
                 UIPasteboard.general.string = self.input
                 self.shortcutIntentState.reset()
             }).textFieldStyle(RoundedBorderTextFieldStyle())

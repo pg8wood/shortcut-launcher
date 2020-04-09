@@ -10,10 +10,10 @@ import Foundation
 
 class ShortcutIntentState: ObservableObject {
     @Published var isRequestingUserInput: Bool = false
-    @Published var currentPrompt: String?
+    @Published var currentPrompt: String = ""
     
     func reset() {
         isRequestingUserInput = false
-        currentPrompt = nil
+        currentPrompt = ""
     }
 }
