@@ -55,10 +55,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        guard userActivity.activityType == "AskInShortcutLauncherIntent" else {
+        guard userActivity.activityType == "AskInShortcutLauncherIntent",
+            let intent = userActivity.interaction?.intent as? AskInShortcutLauncherIntent else {
             return
         }
         
         shortcutIntentState.isRequestingUserInput = true
+        shortcutIntentState.currentPrompt = intent.prompt
     }
 }

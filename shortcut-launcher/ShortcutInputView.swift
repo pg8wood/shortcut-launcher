@@ -16,9 +16,9 @@ struct ShortcutInputView: View {
         VStack {
             Text("Responding to Shortcuts")
                 .font(.title)
-            TextField("Respose (TODO pass the prompt in the intent)", text: $input, onCommit: {
+            TextField(shortcutIntentState.currentPrompt ?? "Input", text: $input, onCommit: {
                 UIPasteboard.general.string = self.input
-                self.shortcutIntentState.isRequestingUserInput = false
+                self.shortcutIntentState.reset()
             }).textFieldStyle(RoundedBorderTextFieldStyle())
             
             Spacer()
