@@ -14,9 +14,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     private let shortcutIntentState = ShortcutIntentState()
+    
+    private var headGazeWindow: HeadGazeWindow!
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        presentContentView(in: scene)
+//        presentContentView(in: scene)
+        
+        
+        
+         if let windowScene = scene as? UIWindowScene {
+            UIApplication.shared.isIdleTimerDisabled = true
+            headGazeWindow = HeadGazeWindow(frame: UIScreen.main.bounds) // TODO: as of now, this particular initializer MUST be called. Maybe do the setup stuff on its frame's didSet?
+            headGazeWindow.windowScene = windowScene
+            headGazeWindow.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+            self.window = headGazeWindow
+            headGazeWindow.makeKeyAndVisible()
+        }
     }
 
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
@@ -24,6 +37,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let shortcuts = shortcutNames(in: context.url)
             
             if !shortcuts.isEmpty {
+                
                 presentContentView(in: scene, with: shortcuts)
                 break
             }
@@ -45,13 +59,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let contentView = ContentView(shortcuts: shortcuts)
             .environmentObject(shortcutIntentState)
         
-        // Use a UIHostingController as window root view controller.
-        if let windowScene = scene as? UIWindowScene {
-            let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: contentView)
-            self.window = window
-            window.makeKeyAndVisible()
-        }
+        let child = UIHostingController(rootView: contentView)
+        let trackingContainerViewController = headGazeWindow.rootViewController as! TrackingContainerViewController
+        let mainViewController = trackingContainerViewController.children[1] as! MainViewController
+        mainViewController.showShortcutsList(shortcuts)
+        //            self.window = window
+        //            window.makeKeyAndVisible()
+        
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
