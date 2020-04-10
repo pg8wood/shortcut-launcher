@@ -55,12 +55,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        guard userActivity.activityType == "AskInShortcutLauncherIntent",
-            let intent = userActivity.interaction?.intent as? AskInShortcutLauncherIntent else {
+        guard let intent = userActivity.interaction?.intent else {
             return
         }
         
-        shortcutIntentState.isRequestingUserInput = true
-        shortcutIntentState.currentPrompt = intent.prompt ?? ""
+        switch intent {
+        case let intent as AskInShortcutLauncherIntent:
+            shortcutIntentState.isRequestingUserInput = true
+            shortcutIntentState.currentPrompt = intent.prompt ?? ""
+            shortcutIntentState.intentType = .askForInput
+        case let intent as ChooseFromListIntent:
+            let choices = intent.list ?? []
+            
+            shortcutIntentState.isRequestingUserInput = true
+            shortcutIntentState.currentPrompt = intent.prompt ?? ""
+            shortcutIntentState.choices = choices
+            shortcutIntentState.intentType = .chooseFromList
+        default:
+            break
+        }
     }
 }

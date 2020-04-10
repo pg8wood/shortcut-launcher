@@ -34,6 +34,7 @@
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>AskInShortcutLauncherIntent</string>
+		<string>ChooseFromListIntent</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

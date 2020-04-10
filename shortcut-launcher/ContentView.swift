@@ -16,12 +16,12 @@ struct ContentView: View {
     private let getMyShortcutsShortcut = Shortcut(name: "Get My Shortcuts")
 
     @State private var showInvalidShortcutAlert = false
-    @State private var returnToApp = true
+    @State private var returnToAppOnCompletion = true
     
     var body: some View {
         contentview
             .sheet(isPresented: $shortcutIntentState.isRequestingUserInput, onDismiss: {
-                self.openShortcuts()
+                ShortcutsExecution.openShortcuts()
             }, content: {
                 ShortcutInputView()
                     .environmentObject(self.shortcutIntentState)
@@ -51,7 +51,7 @@ struct ContentView: View {
             VStack {
                 Text("Select a Shortcut to run")
                     .font(.headline)
-                Toggle("Return to app after shortcut completes", isOn: $returnToApp)
+                Toggle("Return to app after shortcut completes", isOn: $returnToAppOnCompletion)
                 List {
                     ForEach(shortcuts) { shortcut in
                         Button(action: {
@@ -69,21 +69,9 @@ struct ContentView: View {
         )
     }
     
-    // TODO move these somewhere else
-    private func openShortcuts() {
-        UIApplication.shared.open(URL(string: "shortcuts://")!)
-    }
-    
     private func runShortcut(_ shortcut: Shortcut) {
-        guard let urlEncodedShortcutName = shortcut.name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-            showInvalidShortcutAlert = true
-            return
-        }
-        
-        let runShortcutURL = URL(string: "shortcuts://run-shortcut?name=\(urlEncodedShortcutName)\(returnToApp ? "&x-success=shortcut-launcher://" : "")")!
-        print(runShortcutURL)
-        
-        UIApplication.shared.open(runShortcutURL)
+        let shortcutLaunchSuccess = ShortcutsExecution.runShortcut(shortcut, returningToAppOnCompletion: returnToAppOnCompletion)
+        self.showInvalidShortcutAlert = !shortcutLaunchSuccess
     }
 }
 
