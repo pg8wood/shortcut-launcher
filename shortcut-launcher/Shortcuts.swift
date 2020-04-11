@@ -62,9 +62,11 @@ class Shortcut: NSObject, Identifiable {
 }
 
 struct UtilityShortcuts {
-    // TODO diff urls for cancel
-    static let getMyShortcuts = Shortcut(name: "Get My Shortcuts",
-                                         successDeepLink: .importShortcuts)
+    // TODO does Cancel need a different deep link? Is cancel even possible for this shortcut?
+    static let importShortcuts = Shortcut(name: "Get My Shortcuts not found",
+                                         successDeepLink: .importShortcuts,
+                                         cancelDeepLink: .needsToInstallGetMyShortcuts,
+                                         errorDeepLink: .needsToInstallGetMyShortcuts)
 }
 
 struct ShortcutRunner {

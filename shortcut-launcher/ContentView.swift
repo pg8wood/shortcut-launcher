@@ -28,19 +28,21 @@ struct ContentView: View {
                 })
             
             Button(action: {
-                var invalidShortcut = Shortcut(name: "I don't have a shortcut of this name")
+                let invalidShortcut = Shortcut(name: "Shortcut that doesn't exist")
                 invalidShortcut.successDeepLink = .openApp
                 invalidShortcut.cancelDeepLink = .openApp
                 invalidShortcut.errorDeepLink = .openApp
                 ShortcutRunner.runShortcut(invalidShortcut)
             }, label: { Text("Open invalid Shortcut") })
+            .alert(isPresented: self.$showInvalidShortcutAlert) {
+                    shortcutsErrorAlert
+            }
+            .onReceive(deepLinkHandler.$shortcutErrorMessage) { errorMessage in
+                print("received error message: \(errorMessage)")
+                self.showInvalidShortcutAlert = errorMessage != nil
+            }
         }
-        .onReceive(deepLinkHandler.$shortcutErrorMessage) { errorMessage in
-            self.showInvalidShortcutAlert = errorMessage != nil
-        }
-        .alert(isPresented: self.$showInvalidShortcutAlert) {
-            Alert(title: Text("Error Running Shortcut"), message: Text(self.deepLinkHandler.shortcutErrorMessage ?? "An unknown error occurred"), dismissButton: .default(Text("OK")))
-        }
+       
     }
     
     private var contentview: AnyView {
@@ -54,10 +56,16 @@ struct ContentView: View {
     private var importShortcutsButton: AnyView {
         AnyView(
             Button(action: {
-                ShortcutRunner.runShortcut(UtilityShortcuts.getMyShortcuts)
+                ShortcutRunner.runShortcut(UtilityShortcuts.importShortcuts)
             }, label: {
                 Text("Import Shortcuts")
             })
+            .alert(isPresented: $deepLinkHandler.needsToInstallGetMyShortcuts) {
+                Alert(title: Text("Could Not Import Shortcuts"), message: Text("Please install the \"Get My Shortcuts\" shortcut to import your shortcuts."),
+                      dismissButton: .default(Text("OK")) {
+                        self.deepLinkHandler.needsToInstallGetMyShortcuts = false
+                    })
+            }
         )
     }
     
@@ -79,6 +87,14 @@ struct ContentView: View {
             }
             .padding()
         )
+    }
+    
+    private var shortcutsErrorAlert: Alert {
+        Alert(title: Text("Error Running Shortcut"),
+              message: Text(self.deepLinkHandler.shortcutErrorMessage ?? "An unknown error occurred"),
+              dismissButton: .default(Text("OK")) {
+                self.deepLinkHandler.shortcutErrorMessage = nil
+            })
     }
     
     private func runShortcut(_ shortcut: Shortcut, returningtoAppOnCompletion: Bool) {

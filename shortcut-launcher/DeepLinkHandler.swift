@@ -11,6 +11,7 @@ import UIKit
 enum DeepLink: String {
     case openApp = ""
     case importShortcuts = "importShortcuts"
+    case needsToInstallGetMyShortcuts = "needsToInstallGetMyShortcuts"
     
     var fullURL: String {
         AppConfig.appURL + self.rawValue
@@ -20,6 +21,7 @@ enum DeepLink: String {
 class DeepLinkHandler: ObservableObject {
     
     @Published var shortcutErrorMessage: String?
+    @Published var needsToInstallGetMyShortcuts: Bool = false
     
     /// Handles a deep link, parsing URL query items in order.
     ///
@@ -32,16 +34,22 @@ class DeepLinkHandler: ObservableObject {
                 return
         }
         
-        // Handle Shortcuts-provided error message returned when trying to run an invalid shortcut
+        let deepLink = DeepLink(rawValue: urlComponents.host ?? "")
+        
+        // Handle Shortcuts-provided error message returned when trying to run an invalid shortcut. Don't handle `needsToInstallGetMyShortcuts`, as this type has its own error handling.
         func handleErrorMessageIfNeeded() {
+            guard deepLink != .needsToInstallGetMyShortcuts else {
+                return
+            }
+            
             if let errorMessage = queryItems.first(where: { $0.name == "errorMessage" }) {
                 shortcutErrorMessage = errorMessage.value
             }
         }
-
+        
         handleErrorMessageIfNeeded()
         
-        switch DeepLink(rawValue: urlComponents.host ?? "") {
+        switch deepLink {
         case .openApp:
             break
         case .importShortcuts:
@@ -50,6 +58,8 @@ class DeepLinkHandler: ObservableObject {
             if !shortcuts.isEmpty {
                 sceneDelegate.presentContentView(in: scene, with: shortcuts)
             }
+        case .needsToInstallGetMyShortcuts:
+            needsToInstallGetMyShortcuts = true
         case .none:
             print(url.absoluteString)
             break
