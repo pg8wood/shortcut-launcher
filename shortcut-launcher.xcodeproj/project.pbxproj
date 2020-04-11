@@ -15,10 +15,12 @@
 		B8876E19243F9AE400583FE9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8876E17243F9AE400583FE9 /* LaunchScreen.storyboard */; };
 		B8876E24243F9AE400583FE9 /* shortcut_launcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8876E23243F9AE400583FE9 /* shortcut_launcherTests.swift */; };
 		B8876E2F243F9AE400583FE9 /* shortcut_launcherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8876E2E243F9AE400583FE9 /* shortcut_launcherUITests.swift */; };
-		B8876E3F243FACC800583FE9 /* Shortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8876E3E243FACC800583FE9 /* Shortcut.swift */; };
+		B8876E3F243FACC800583FE9 /* Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8876E3E243FACC800583FE9 /* Shortcuts.swift */; };
 		B8876E42243FC0DE00583FE9 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = B8876E41243FC0DE00583FE9 /* Intents.intentdefinition */; };
 		B8AB986E243FC41400C8F6F6 /* ShortcutIntentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AB986D243FC41400C8F6F6 /* ShortcutIntentState.swift */; };
 		B8AB9870243FC7E800C8F6F6 /* ShortcutInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AB986F243FC7E800C8F6F6 /* ShortcutInputView.swift */; };
+		B8D836D224425E66003C1A87 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D836D124425E66003C1A87 /* AppConfig.swift */; };
+		B8D836D424426910003C1A87 /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D836D324426910003C1A87 /* DeepLinkHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,11 +55,13 @@
 		B8876E2A243F9AE400583FE9 /* shortcut-launcherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "shortcut-launcherUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8876E2E243F9AE400583FE9 /* shortcut_launcherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shortcut_launcherUITests.swift; sourceTree = "<group>"; };
 		B8876E30243F9AE400583FE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B8876E3E243FACC800583FE9 /* Shortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcut.swift; sourceTree = "<group>"; };
+		B8876E3E243FACC800583FE9 /* Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcuts.swift; sourceTree = "<group>"; };
 		B8876E40243FBEB300583FE9 /* shortcut-launcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "shortcut-launcher.entitlements"; sourceTree = "<group>"; };
 		B8876E41243FC0DE00583FE9 /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
 		B8AB986D243FC41400C8F6F6 /* ShortcutIntentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutIntentState.swift; sourceTree = "<group>"; };
 		B8AB986F243FC7E800C8F6F6 /* ShortcutInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutInputView.swift; sourceTree = "<group>"; };
+		B8D836D124425E66003C1A87 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		B8D836D324426910003C1A87 /* DeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,11 +115,13 @@
 			children = (
 				B8876E40243FBEB300583FE9 /* shortcut-launcher.entitlements */,
 				B8876E0C243F9AE200583FE9 /* AppDelegate.swift */,
+				B8D836D124425E66003C1A87 /* AppConfig.swift */,
 				B8876E0E243F9AE200583FE9 /* SceneDelegate.swift */,
+				B8D836D324426910003C1A87 /* DeepLinkHandler.swift */,
 				B8AB986D243FC41400C8F6F6 /* ShortcutIntentState.swift */,
 				B8AB986F243FC7E800C8F6F6 /* ShortcutInputView.swift */,
 				B8876E10243F9AE200583FE9 /* ContentView.swift */,
-				B8876E3E243FACC800583FE9 /* Shortcut.swift */,
+				B8876E3E243FACC800583FE9 /* Shortcuts.swift */,
 				B8876E12243F9AE300583FE9 /* Assets.xcassets */,
 				B8876E17243F9AE400583FE9 /* LaunchScreen.storyboard */,
 				B8876E1A243F9AE400583FE9 /* Info.plist */,
@@ -281,8 +287,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8D836D424426910003C1A87 /* DeepLinkHandler.swift in Sources */,
 				B8876E0D243F9AE200583FE9 /* AppDelegate.swift in Sources */,
-				B8876E3F243FACC800583FE9 /* Shortcut.swift in Sources */,
+				B8D836D224425E66003C1A87 /* AppConfig.swift in Sources */,
+				B8876E3F243FACC800583FE9 /* Shortcuts.swift in Sources */,
 				B8876E0F243F9AE200583FE9 /* SceneDelegate.swift in Sources */,
 				B8AB986E243FC41400C8F6F6 /* ShortcutIntentState.swift in Sources */,
 				B8876E42243FC0DE00583FE9 /* Intents.intentdefinition in Sources */,

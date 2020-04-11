@@ -13,19 +13,27 @@ struct ContentView: View {
     
     let shortcuts: [Shortcut]
     
-    private let getMyShortcutsShortcut = Shortcut(name: "Get My Shortcuts")
-
     @State private var showInvalidShortcutAlert = false
-    @State private var returnToAppOnCompletion = true
+    @State private var returnToAppOnCompletion = false
     
     var body: some View {
-        contentview
-            .sheet(isPresented: $shortcutIntentState.isRequestingUserInput, onDismiss: {
-                ShortcutsExecution.openShortcuts()
-            }, content: {
-                ShortcutInputView()
-                    .environmentObject(self.shortcutIntentState)
-            })
+        VStack(spacing: 32) {
+            contentview
+                .sheet(isPresented: $shortcutIntentState.isRequestingUserInput, onDismiss: {
+                    ShortcutRunner.openShortcuts()
+                }, content: {
+                    ShortcutInputView()
+                        .environmentObject(self.shortcutIntentState)
+                })
+            
+            Button(action: {
+                var invalidShortcut = Shortcut(name: "I don't have a shortcut of this name")
+                invalidShortcut.successDeepLink = .openApp
+                invalidShortcut.cancelDeepLink = .openApp
+                invalidShortcut.errorDeepLink = .openApp
+                ShortcutRunner.runShortcut(invalidShortcut)
+            }, label: { Text("Open invalid Shortcut") })
+        }
     }
     
     private var contentview: AnyView {
@@ -39,7 +47,7 @@ struct ContentView: View {
     private var importShortcutsButton: AnyView {
         AnyView(
             Button(action: {
-                self.runShortcut(self.getMyShortcutsShortcut)
+                ShortcutRunner.runShortcut(UtilityShortcuts.getMyShortcuts)
             }, label: {
                 Text("Import Shortcuts")
             })
@@ -55,7 +63,7 @@ struct ContentView: View {
                 List {
                     ForEach(shortcuts) { shortcut in
                         Button(action: {
-                            self.runShortcut(shortcut)
+                            self.runShortcut(shortcut, returningtoAppOnCompletion: self.returnToAppOnCompletion)
                         }, label: {
                             Text(shortcut.name)
                         })
@@ -69,9 +77,16 @@ struct ContentView: View {
         )
     }
     
-    private func runShortcut(_ shortcut: Shortcut) {
-        let shortcutLaunchSuccess = ShortcutsExecution.runShortcut(shortcut, returningToAppOnCompletion: returnToAppOnCompletion)
-        self.showInvalidShortcutAlert = !shortcutLaunchSuccess
+    private func runShortcut(_ shortcut: Shortcut, returningtoAppOnCompletion: Bool) {
+        var shortcut = shortcut
+        if returningtoAppOnCompletion {
+            shortcut.successDeepLink = .openApp
+            shortcut.cancelDeepLink = .openApp
+            shortcut.errorDeepLink = .openApp
+        }
+        
+        ShortcutRunner.runShortcut(shortcut)
+//        self.showInvalidShortcutAlert = !shortcutLaunchSuccess
     }
 }
 

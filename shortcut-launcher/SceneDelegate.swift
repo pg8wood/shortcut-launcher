@@ -20,27 +20,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        for context in URLContexts {
-            let shortcuts = shortcutNames(in: context.url)
-            
-            if !shortcuts.isEmpty {
-                presentContentView(in: scene, with: shortcuts)
-                break
-            }
-        }
-    }
-    
-    private func shortcutNames(in url: URL) -> [String] {
-        guard url.scheme == "shortcut-launcher",
-            let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems,
-            let shortcutNameResults = queryItems.first(where: { $0.name == "result" })?.value else {
-                return []
+        guard let url = URLContexts.first?.url else {
+            return
         }
         
-        return shortcutNameResults.components(separatedBy: "\n")
+        DeepLinkHandler.handleDeepLink(url, in: scene)
     }
     
-    private func presentContentView(in scene: UIScene, with shortcutNames: [String] = []) {
+    func presentContentView(in scene: UIScene, with shortcutNames: [String] = []) {
         let shortcuts = shortcutNames.map { Shortcut(name: $0) }
         let contentView = ContentView(shortcuts: shortcuts)
             .environmentObject(shortcutIntentState)
