@@ -14,6 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     private let shortcutIntentState = ShortcutIntentState()
+    private let deepLinkHandler = DeepLinkHandler()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         presentContentView(in: scene)
@@ -24,13 +25,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         
-        DeepLinkHandler.handleDeepLink(url, in: scene)
+        deepLinkHandler.handleDeepLink(url, in: scene)
     }
     
     func presentContentView(in scene: UIScene, with shortcutNames: [String] = []) {
         let shortcuts = shortcutNames.map { Shortcut(name: $0) }
         let contentView = ContentView(shortcuts: shortcuts)
             .environmentObject(shortcutIntentState)
+            .environmentObject(deepLinkHandler)
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

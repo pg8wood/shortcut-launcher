@@ -10,11 +10,12 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var shortcutIntentState: ShortcutIntentState
+    @EnvironmentObject var deepLinkHandler: DeepLinkHandler
     
     let shortcuts: [Shortcut]
     
-    @State private var showInvalidShortcutAlert = false
     @State private var returnToAppOnCompletion = false
+    @State private var showInvalidShortcutAlert = false
     
     var body: some View {
         VStack(spacing: 32) {
@@ -33,6 +34,12 @@ struct ContentView: View {
                 invalidShortcut.errorDeepLink = .openApp
                 ShortcutRunner.runShortcut(invalidShortcut)
             }, label: { Text("Open invalid Shortcut") })
+        }
+        .onReceive(deepLinkHandler.$shortcutErrorMessage) { errorMessage in
+            self.showInvalidShortcutAlert = errorMessage != nil
+        }
+        .alert(isPresented: self.$showInvalidShortcutAlert) {
+            Alert(title: Text("Error Running Shortcut"), message: Text(self.deepLinkHandler.shortcutErrorMessage ?? "An unknown error occurred"), dismissButton: .default(Text("OK")))
         }
     }
     
@@ -67,9 +74,6 @@ struct ContentView: View {
                         }, label: {
                             Text(shortcut.name)
                         })
-                        .alert(isPresented: self.$showInvalidShortcutAlert) {
-                            Alert(title: Text("Invalid shortcut"), message: Text("The shortcut does not exist."), dismissButton: .default(Text("OK")))
-                        }
                     }
                 }
             }
@@ -86,7 +90,6 @@ struct ContentView: View {
         }
         
         ShortcutRunner.runShortcut(shortcut)
-//        self.showInvalidShortcutAlert = !shortcutLaunchSuccess
     }
 }
 
