@@ -17,7 +17,6 @@ class ShortcutIntentState: ObservableObject {
     @Published var isRequestingUserInput: Bool = false
     @Published var currentPrompt: String = ""
     @Published var choices: [String] = []
-    @Published var isMissingIntentParameters: Bool = false
     
     var intentType: IntentType? = .askForInput
         

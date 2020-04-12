@@ -19,6 +19,7 @@ struct ShortcutInputView: View {
                 Spacer()
             }
             .padding()
+            .navigationBarTitle("Responding to Shortcuts", displayMode: .inline)
             .navigationBarItems(trailing:
                 Button("Cancel") {
                     self.sendInputToShortcuts(AppConfig.cancelShortcutIdentifier)
@@ -31,13 +32,14 @@ struct ShortcutInputView: View {
         switch shortcutIntentState.intentType {
         case .askForInput:
             return AnyView(
-                VStack {
-//                    Text("Responding to Shortcuts")
-//                        .font(.title)
-//                        .padding(.bottom, 25)
-                    TextField(shortcutIntentState.currentPrompt, text: $input, onCommit: {
+                VStack(alignment: .leading) {
+                    Text(shortcutIntentState.currentPrompt)
+                        .font(.headline)
+                        .bold()
+                    TextField("Enter your response", text: $input, onCommit: {
                         self.sendInputToShortcuts(self.input)
-                    }).textFieldStyle(RoundedBorderTextFieldStyle())
+                    })
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .navigationBarTitle("Test")
                     Spacer()
             })
@@ -55,12 +57,8 @@ struct ShortcutInputView: View {
                 )
             }
         case .none:
-            return noIntentTypeErrorView
+            return AnyView(InputErrorView())
         }
-    }
-    
-    private var noIntentTypeErrorView: AnyView {
-        AnyView(Text("Shortcuts has opened shortcut-handler with an invalid input type. Please try again."))
     }
     
     private var choicesView: some View {

@@ -23,7 +23,7 @@ struct InstallShortcutListItem: View {
                 .fontWeight(.light)
             
             // TODO add sample shortcuts for users to see how to use this app's related shortcuts. Add exampleShortcuts list property on UtilityShortcut type for this
-            if shortcut.name == "Keyboard Input" || shortcut.name == "Choose From List" {
+            if shortcut.name == "Proxy Keyboard Input to Shortcut Launcher" || shortcut.name == "Choose From List in Shortcut Launcher" {
                 Button(action: {
                     // open example
                 }, label: {
@@ -51,14 +51,17 @@ struct InstallShortcutListItem: View {
                 .cornerRadius(10)
             
             Text(shortcut.name)
+                .lineLimit(nil)
                 .font(.system(size: 18, weight: .bold))
                 .multilineTextAlignment(.leading)
-                .frame(height: textHeight)
+                
+//                .frame(height: textHeight)
             
             Spacer()
             
             installButton
         }
+        .frame(minHeight: textHeight, maxHeight: 75)
     }
     
     private var installButton: some View {

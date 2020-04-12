@@ -103,13 +103,13 @@ enum PackagedShortcut: CaseIterable {
                                    cancelDeepLink: .needsToInstallGetMyShortcuts,
                                    errorDeepLink: .needsToInstallGetMyShortcuts)
         case .proxyKeyboardInput:
-            return UtilityShortcut(name: "Keyboard Input",
+            return UtilityShortcut(name: "Proxy Keyboard Input to Shortcut Launcher",
                                    description: "Opens Shortcut Launcher to respond to a shortcut's request for input.",
                                    installationURL: URL(string: "https://www.icloud.com/shortcuts/a7396fd43df0483db52e4556a6325aad")!,
                                    systemImageName: "keyboard",
                                    iconColor: .pink)
         case .proxyChooseFromList:
-            return UtilityShortcut(name: "Choose From List",
+            return UtilityShortcut(name: "Choose From List in Shortcut Launcher",
                                    description: "Opens Shortcut Launcher to choose from a list of options provided by a shortcut.",
                                    installationURL: URL(string: "https://www.icloud.com/shortcuts/08195880da2b4b19b59c3e8c7acca05a")!,
                                    systemImageName: "list.bullet",

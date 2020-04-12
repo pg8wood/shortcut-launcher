@@ -14,7 +14,6 @@ struct IntentHandler {
     static func handleIntent(_ intent: INIntent, with shortcutIntentState: ShortcutIntentState) {
         func handleAskInShortcutLauncherIntent(_ intent: AskInShortcutLauncherIntent) {
             guard let prompt = intent.prompt, !prompt.isEmpty else {
-                shortcutIntentState.isMissingIntentParameters = true
                 return
             }
             
@@ -24,7 +23,6 @@ struct IntentHandler {
         func handleChooseFromListIntent(_ intent: ChooseFromListIntent) {
             guard let prompt = intent.prompt, !prompt.isEmpty,
                 let choices = intent.list, !choices.isEmpty else {
-                shortcutIntentState.isMissingIntentParameters = true
                 return
             }
             
