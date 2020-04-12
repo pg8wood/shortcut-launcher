@@ -18,31 +18,31 @@ struct ContentView: View {
     @State private var showInvalidShortcutAlert = false
     
     var body: some View {
-        VStack(spacing: 32) {
-            contentview
-                .sheet(isPresented: $shortcutIntentState.isRequestingUserInput, onDismiss: {
-                    ShortcutRunner.openShortcuts()
-                }, content: {
-                    ShortcutInputView()
-                        .environmentObject(self.shortcutIntentState)
-                })
-            
-            Button(action: {
-                let invalidShortcut = Shortcut(name: "Shortcut that doesn't exist")
-                invalidShortcut.successDeepLink = .openApp
-                invalidShortcut.cancelDeepLink = .openApp
-                invalidShortcut.errorDeepLink = .openApp
-                ShortcutRunner.runShortcut(invalidShortcut)
-            }, label: { Text("Open invalid Shortcut") })
-            .alert(isPresented: self.$showInvalidShortcutAlert) {
-                    shortcutsErrorAlert
-            }
-            .onReceive(deepLinkHandler.$shortcutErrorMessage) { errorMessage in
-                print("received error message: \(errorMessage)")
-                self.showInvalidShortcutAlert = errorMessage != nil
+        NavigationView {
+            VStack(spacing: 32) {
+                contentview
+                    .sheet(isPresented: $shortcutIntentState.isRequestingUserInput, onDismiss: {
+                        ShortcutRunner.openShortcuts()
+                    }, content: {
+                        ShortcutInputView()
+                            .environmentObject(self.shortcutIntentState)
+                    })
+                
+                Button(action: {
+                    let invalidShortcut = Shortcut(name: "Shortcut that doesn't exist")
+                    invalidShortcut.successDeepLink = .openApp
+                    invalidShortcut.cancelDeepLink = .openApp
+                    invalidShortcut.errorDeepLink = .openApp
+                    ShortcutRunner.runShortcut(invalidShortcut)
+                }, label: { Text("Open invalid Shortcut") })
+                    .alert(isPresented: self.$showInvalidShortcutAlert) {
+                        shortcutsErrorAlert
+                }
+                .onReceive(deepLinkHandler.$shortcutErrorMessage) { errorMessage in
+                    self.showInvalidShortcutAlert = errorMessage != nil
+                }
             }
         }
-       
     }
     
     private var contentview: AnyView {
@@ -64,16 +64,15 @@ struct ContentView: View {
                 Alert(title: Text("Could Not Import Shortcuts"), message: Text("Please install the \"Get My Shortcuts\" shortcut to import your shortcuts."),
                       dismissButton: .default(Text("OK")) {
                         self.deepLinkHandler.needsToInstallGetMyShortcuts = false
-                    })
+                })
             }
+            .navigationBarTitle("Import Your Shortcuts")
         )
     }
     
     private var shortcutsList: AnyView {
         AnyView (
             VStack {
-                Text("Select a Shortcut to run")
-                    .font(.headline)
                 Toggle("Return to app after shortcut completes", isOn: $returnToAppOnCompletion)
                 List {
                     ForEach(shortcuts) { shortcut in
@@ -85,6 +84,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .navigationBarTitle("My Shortcuts")
             .padding()
         )
     }
