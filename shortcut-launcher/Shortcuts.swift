@@ -105,7 +105,7 @@ enum PackagedShortcut: CaseIterable {
         case .proxyKeyboardInput:
             return UtilityShortcut(name: "Keyboard Input",
                                    description: "Opens Shortcut Launcher to respond to a shortcut's request for input.",
-                                   installationURL: URL(string: "https://www.icloud.com/shortcuts/48b1435946eb4f8c8362ba88c6bcb147")!,
+                                   installationURL: URL(string: "https://www.icloud.com/shortcuts/a7396fd43df0483db52e4556a6325aad")!,
                                    systemImageName: "keyboard",
                                    iconColor: .pink)
         case .proxyChooseFromList:

@@ -48,20 +48,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         
-        switch intent {
-        case let intent as AskInShortcutLauncherIntent:
-            shortcutIntentState.isRequestingUserInput = true
-            shortcutIntentState.currentPrompt = intent.prompt ?? ""
-            shortcutIntentState.intentType = .askForInput
-        case let intent as ChooseFromListIntent:
-            let choices = intent.list ?? []
-            
-            shortcutIntentState.isRequestingUserInput = true
-            shortcutIntentState.currentPrompt = intent.prompt ?? ""
-            shortcutIntentState.choices = choices
-            shortcutIntentState.intentType = .chooseFromList
-        default:
-            break
-        }
+        IntentHandler.handleIntent(intent, with: shortcutIntentState)
     }
 }

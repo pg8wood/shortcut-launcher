@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B86D96942443AA2200B808B5 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86D96932443AA2200B808B5 /* IntentHandler.swift */; };
 		B8876E0D243F9AE200583FE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8876E0C243F9AE200583FE9 /* AppDelegate.swift */; };
 		B8876E0F243F9AE200583FE9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8876E0E243F9AE200583FE9 /* SceneDelegate.swift */; };
 		B8876E11243F9AE200583FE9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8876E10243F9AE200583FE9 /* ContentView.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B86D96932443AA2200B808B5 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
 		B8876E09243F9AE200583FE9 /* shortcut-launcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "shortcut-launcher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8876E0C243F9AE200583FE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B8876E0E243F9AE200583FE9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				B8AB986F243FC7E800C8F6F6 /* ShortcutInputView.swift */,
 				B8876E10243F9AE200583FE9 /* ContentView.swift */,
 				B8876E3E243FACC800583FE9 /* Shortcuts.swift */,
+				B86D96932443AA2200B808B5 /* IntentHandler.swift */,
 				B8D836D92442D1FA003C1A87 /* Install Shortcuts */,
 				B8876E12243F9AE300583FE9 /* Assets.xcassets */,
 				B8876E17243F9AE400583FE9 /* LaunchScreen.storyboard */,
@@ -311,6 +314,7 @@
 				B8AB986E243FC41400C8F6F6 /* ShortcutIntentState.swift in Sources */,
 				B8876E42243FC0DE00583FE9 /* Intents.intentdefinition in Sources */,
 				B8876E11243F9AE200583FE9 /* ContentView.swift in Sources */,
+				B86D96942443AA2200B808B5 /* IntentHandler.swift in Sources */,
 				B8AB9870243FC7E800C8F6F6 /* ShortcutInputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

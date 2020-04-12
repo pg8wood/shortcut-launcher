@@ -12,28 +12,19 @@ struct ShortcutInputView: View {
     @EnvironmentObject var shortcutIntentState: ShortcutIntentState
     @State private var input: String = ""
     
-    var prompt: String {
-        var defaultPrompt: String {
-            switch shortcutIntentState.intentType {
-            case .askForInput:
-                return "Enter your response"
-            case .chooseFromList:
-                return "Choose an item"
-            case .none:
-                return "An error occurred"
-            }
-        }
-        
-        return shortcutIntentState.currentPrompt.isEmpty ? defaultPrompt : shortcutIntentState.currentPrompt
-    }
-    
-    
     var body: some View {
-        VStack {
-            inputView
-            Spacer()
+        NavigationView {
+            VStack {
+                inputView
+                Spacer()
+            }
+            .padding()
+            .navigationBarItems(trailing:
+                Button("Cancel") {
+                    self.sendInputToShortcuts(AppConfig.cancelShortcutIdentifier)
+                }
+            )
         }
-        .padding()
     }
     
     private var inputView: AnyView {
@@ -41,12 +32,14 @@ struct ShortcutInputView: View {
         case .askForInput:
             return AnyView(
                 VStack {
-                    Text("Responding to Shortcuts")
-                        .font(.title)
-                        .padding(.bottom, 25)
-                    TextField(prompt, text: $input, onCommit: {
+//                    Text("Responding to Shortcuts")
+//                        .font(.title)
+//                        .padding(.bottom, 25)
+                    TextField(shortcutIntentState.currentPrompt, text: $input, onCommit: {
                         self.sendInputToShortcuts(self.input)
                     }).textFieldStyle(RoundedBorderTextFieldStyle())
+                    .navigationBarTitle("Test")
+                    Spacer()
             })
         case .chooseFromList:
             if shortcutIntentState.choices.isEmpty {
@@ -54,7 +47,7 @@ struct ShortcutInputView: View {
             } else {
                 return AnyView(
                     VStack {
-                        Text(prompt)
+                        Text(shortcutIntentState.currentPrompt)
                             .font(.title)
                             .padding(.bottom, 25)
                         choicesView
@@ -102,5 +95,6 @@ struct ShortcutInputView: View {
 struct ShortcutInputView_Previews: PreviewProvider {
     static var previews: some View {
         ShortcutInputView()
+            .environmentObject(ShortcutIntentState())
     }
 }

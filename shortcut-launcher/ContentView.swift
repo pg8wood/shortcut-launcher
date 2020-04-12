@@ -94,8 +94,7 @@ struct ContentView: View {
     }
     
     private var shortcutsErrorAlert: Alert {
-        Alert(title: Text("Error Running Shortcut"),
-              message: Text(self.deepLinkHandler.shortcutErrorMessage ?? "An unknown error occurred"),
+        Alert(title: Text(self.deepLinkHandler.shortcutErrorMessage ?? "An unknown error occurred"),
               dismissButton: .default(Text("OK")) {
                 self.deepLinkHandler.shortcutErrorMessage = nil
             })

@@ -17,11 +17,23 @@ struct InstallShortcutListItem: View {
     }
     
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                self.header
-                Text(shortcut.description)
-                    .fontWeight(.light)
+        VStack(alignment: .leading) {
+            header
+            Text(shortcut.description)
+                .fontWeight(.light)
+            
+            // TODO add sample shortcuts for users to see how to use this app's related shortcuts. Add exampleShortcuts list property on UtilityShortcut type for this
+            if shortcut.name == "Keyboard Input" || shortcut.name == "Choose From List" {
+                Button(action: {
+                    // open example
+                }, label: {
+                    HStack {
+                        Text("View example")
+                            .bold()
+                            .foregroundColor(Color(UIColor.label))
+                        Image(systemName: "arrow.up.right.square.fill")
+                    }
+                })
             }
         }
         .padding()
@@ -45,7 +57,7 @@ struct InstallShortcutListItem: View {
             
             Spacer()
             
-            self.installButton
+            installButton
         }
     }
     

@@ -13,11 +13,18 @@ struct InstallShortcutsView: View {
     
     var body: some View {
         VStack {
-            ForEach(installableShortcuts) { shortcut in
-                InstallShortcutListItem(shortcut: shortcut)
+            Text("Shortcuts Launcher uses these shortcuts to interact with Siri Shortcuts.")
+            List {
+                ForEach(installableShortcuts) { shortcut in
+                    InstallShortcutListItem(shortcut: shortcut)
+                }
+                 .listRowInsets(EdgeInsets())
             }
+            
             Spacer()
         }
+            
+        .navigationBarTitle("Install Shortcuts")
     }
 }
 

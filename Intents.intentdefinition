@@ -36,7 +36,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Gets user input from the shortcut-launcher app and copies it to the clipboard. You should call the "Wait to return" scripting action in order to prevent your shortcut from continuing while the user is adding input.</string>
+					<string>Gets user input from the shortcut-launcher app and copies it to the clipboard. You should not run this shortcut directly. Instead, install and use the "Proxy Input to Shortcut Launcher" shortcut.</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>BQu7Ij</string>
 					<key>INIntentParameterCombinationUpdatesLinked</key>
@@ -178,7 +178,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Sends a list of items to shortcut-launcher for the user to make a selection.</string>
+					<string>Sends a list of items to shortcut-launcher for the user to make a selection. You should not run this shortcut directly. Instead, install and use the "Choose From List In Shortcut Launcher" shortcut.</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>abfrpO</string>
 					<key>INIntentParameterCombinationUpdatesLinked</key>
@@ -196,7 +196,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Sends a list of items to shortcut-launcher for the user to make a selection.</string>
+					<string>Sends a list of items to shortcut-launcher for the user to make a selection. You should not run this shortcut directly. Instead, install and use the "Choose From List In Shortcut Launcher" shortcut.</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>xCtM7D</string>
 				</dict>

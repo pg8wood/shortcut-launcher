@@ -18,4 +18,6 @@ struct AppConfig {
         
         return urlSchemes.first as! String
     }
+    
+    static let cancelShortcutIdentifier = "Cancel shortcut"
 }
