@@ -13,12 +13,12 @@ struct InstallShortcutListItem: View {
     
     private let textHeight: CGFloat = 50
     private var imageHeight: CGFloat {
-        textHeight / 2
+        2 / 3 * textHeight
     }
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading) {
                 self.header
                 Text(shortcut.description)
                     .fontWeight(.light)
@@ -31,7 +31,7 @@ struct InstallShortcutListItem: View {
         HStack(alignment: .center, spacing: 10) {
             Image(systemName: shortcut.systemImageName)
                 .resizable()
-                .scaledToFill()
+                .scaledToFit()
                 .frame(width: imageHeight, height: imageHeight)
                 .foregroundColor(.white)
                 .padding(8)
@@ -39,7 +39,7 @@ struct InstallShortcutListItem: View {
                 .cornerRadius(10)
             
             Text(shortcut.name)
-                .fontWeight(.bold)
+                .font(.system(size: 18, weight: .bold))
                 .multilineTextAlignment(.leading)
                 .frame(height: textHeight)
             
@@ -70,6 +70,6 @@ struct InstallShortcutListItem: View {
 
 struct InstallShortcutListItem_Previews: PreviewProvider {
     static var previews: some View {
-        InstallShortcutListItem(shortcut: PackagedShortcut.importShortcuts.shortcut)
+        InstallShortcutListItem(shortcut: PackagedShortcut.proxyKeyboardInput.shortcut)
     }
 }

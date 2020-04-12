@@ -85,19 +85,35 @@ class UtilityShortcut: Shortcut {
 
 enum PackagedShortcut: CaseIterable {
     case importShortcuts
+    case proxyKeyboardInput
+    case proxyChooseFromList
     
+    // TODO: update iCloud URLs once the app name is chosen. Otherwise the old app name will display in the shortcut.
+    // TODO does Cancel need a different deep link? Is cancel even possible for these shortcuts?
+    // TODO: use actual Shortcuts color?
     var shortcut: UtilityShortcut {
         switch self {
         case .importShortcuts:
-            // TODO does Cancel need a different deep link? Is cancel even possible for this shortcut?
             return UtilityShortcut(name: "Get My Shortcuts",
                                    description: "Fetches the names of all the shortcuts installed on your device.",
                                    installationURL: URL(string: "https://www.icloud.com/shortcuts/a6669a9f0899499896457d30ff8ad4b8")!,
                                    systemImageName: "s.square",
-                                   iconColor: .blue,
+                                   iconColor: .red,
                                    successDeepLink: .importShortcuts,
                                    cancelDeepLink: .needsToInstallGetMyShortcuts,
                                    errorDeepLink: .needsToInstallGetMyShortcuts)
+        case .proxyKeyboardInput:
+            return UtilityShortcut(name: "Keyboard Input",
+                                   description: "Opens Shortcut Launcher to respond to a shortcut's request for input.",
+                                   installationURL: URL(string: "https://www.icloud.com/shortcuts/48b1435946eb4f8c8362ba88c6bcb147")!,
+                                   systemImageName: "keyboard",
+                                   iconColor: .pink)
+        case .proxyChooseFromList:
+            return UtilityShortcut(name: "Choose From List",
+                                   description: "Opens Shortcut Launcher to choose from a list of options provided by a shortcut.",
+                                   installationURL: URL(string: "https://www.icloud.com/shortcuts/08195880da2b4b19b59c3e8c7acca05a")!,
+                                   systemImageName: "list.bullet",
+                                   iconColor: .blue)
         }
     }
 }
