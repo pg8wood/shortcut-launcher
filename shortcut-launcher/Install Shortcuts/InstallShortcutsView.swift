@@ -9,8 +9,15 @@
 import SwiftUI
 
 struct InstallShortcutsView: View {
+    let installableShortcuts = PackagedShortcut.allCases.map { $0.shortcut }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            ForEach(installableShortcuts) { shortcut in
+                InstallShortcutListItem(shortcut: shortcut)
+            }
+            Spacer()
+        }
     }
 }
 

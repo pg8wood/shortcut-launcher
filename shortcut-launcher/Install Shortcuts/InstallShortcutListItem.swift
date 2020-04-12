@@ -9,10 +9,7 @@
 import SwiftUI
 
 struct InstallShortcutListItem: View {
-    let systemImageName: String
-    let shortcutName: String
-    let description: String
-    let iconColor: Color
+    let shortcut: UtilityShortcut
     
     private let textHeight: CGFloat = 50
     private var imageHeight: CGFloat {
@@ -20,35 +17,34 @@ struct InstallShortcutListItem: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    self.header
-                    Text(self.description)
-                        .fontWeight(.light)
-                }
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                self.header
+                Text(shortcut.description)
+                    .fontWeight(.light)
             }
         }
         .padding()
     }
     
     private var header: some View {
-        HStack(alignment: .center) {
-            Image(systemName: systemImageName)
+        HStack(alignment: .center, spacing: 10) {
+            Image(systemName: shortcut.systemImageName)
                 .resizable()
                 .scaledToFill()
                 .frame(width: imageHeight, height: imageHeight)
                 .foregroundColor(.white)
                 .padding(8)
-                .background(iconColor)
+                .background(shortcut.iconColor)
                 .cornerRadius(10)
             
-            Text(shortcutName)
+            Text(shortcut.name)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.leading)
                 .frame(height: textHeight)
             
             Spacer()
+            
             self.installButton
         }
     }
@@ -60,10 +56,9 @@ struct InstallShortcutListItem: View {
         }
         
         return Button(action: {
-            // install shortcut
+            UIApplication.shared.open(self.shortcut.installationURL)
         }, label: {
-
-            Text("View Shortcut")
+            Text("View")
                 .foregroundColor(.white)
                 .fontWeight(.medium)
                 .padding(.horizontal, 16)
@@ -75,10 +70,6 @@ struct InstallShortcutListItem: View {
 
 struct InstallShortcutListItem_Previews: PreviewProvider {
     static var previews: some View {
-        InstallShortcutListItem(systemImageName: "paperclip",
-                                shortcutName: "Test Shortcut with a long name",
-                                description: "This shortcut will blow your mind through the power of magic.",
-                                iconColor: Color(.systemBlue))
-            
+        InstallShortcutListItem(shortcut: PackagedShortcut.importShortcuts.shortcut)
     }
 }

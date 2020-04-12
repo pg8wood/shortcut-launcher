@@ -18,6 +18,4 @@ struct AppConfig {
         
         return urlSchemes.first as! String
     }
-
-    static let getMyShortcutsURL = URL(string: "https://www.icloud.com/shortcuts/a6669a9f0899499896457d30ff8ad4b8")!
 }

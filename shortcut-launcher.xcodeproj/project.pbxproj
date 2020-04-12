@@ -96,7 +96,6 @@
 		B8876E00243F9AE200583FE9 = {
 			isa = PBXGroup;
 			children = (
-				B8D836D524428718003C1A87 /* InstallShortcutsView.swift */,
 				B8876E41243FC0DE00583FE9 /* Intents.intentdefinition */,
 				B8876E0B243F9AE200583FE9 /* shortcut-launcher */,
 				B8876E22243F9AE400583FE9 /* shortcut-launcherTests */,
@@ -127,7 +126,7 @@
 				B8AB986F243FC7E800C8F6F6 /* ShortcutInputView.swift */,
 				B8876E10243F9AE200583FE9 /* ContentView.swift */,
 				B8876E3E243FACC800583FE9 /* Shortcuts.swift */,
-				B8D836D72442C04D003C1A87 /* InstallShortcutListItem.swift */,
+				B8D836D92442D1FA003C1A87 /* Install Shortcuts */,
 				B8876E12243F9AE300583FE9 /* Assets.xcassets */,
 				B8876E17243F9AE400583FE9 /* LaunchScreen.storyboard */,
 				B8876E1A243F9AE400583FE9 /* Info.plist */,
@@ -160,6 +159,15 @@
 				B8876E30243F9AE400583FE9 /* Info.plist */,
 			);
 			path = "shortcut-launcherUITests";
+			sourceTree = "<group>";
+		};
+		B8D836D92442D1FA003C1A87 /* Install Shortcuts */ = {
+			isa = PBXGroup;
+			children = (
+				B8D836D524428718003C1A87 /* InstallShortcutsView.swift */,
+				B8D836D72442C04D003C1A87 /* InstallShortcutListItem.swift */,
+			);
+			path = "Install Shortcuts";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

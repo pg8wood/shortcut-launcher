@@ -41,6 +41,10 @@ struct ContentView: View {
                 .onReceive(deepLinkHandler.$shortcutErrorMessage) { errorMessage in
                     self.showInvalidShortcutAlert = errorMessage != nil
                 }
+                
+                NavigationLink(destination: InstallShortcutsView()) {
+                    Text("Install Shortcuts")
+                }
             }
         }
     }
@@ -56,7 +60,7 @@ struct ContentView: View {
     private var importShortcutsButton: AnyView {
         AnyView(
             Button(action: {
-                ShortcutRunner.runShortcut(UtilityShortcuts.importShortcuts)
+                ShortcutRunner.runShortcut(PackagedShortcut.importShortcuts.shortcut)
             }, label: {
                 Text("Import Shortcuts")
             })

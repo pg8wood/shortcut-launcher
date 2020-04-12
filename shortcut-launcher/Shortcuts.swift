@@ -6,9 +6,9 @@
 //  Copyright © 2020 Patrick Gatewood. All rights reserved.
 //
 
-import UIKit
+import SwiftUI
 
-class Shortcut: NSObject, Identifiable {
+class Shortcut: Identifiable {
     var id = UUID()
     var name: String
     
@@ -51,7 +51,7 @@ class Shortcut: NSObject, Identifiable {
          errorDeepLink: DeepLink? = nil) {
         self.name = name
         
-        super.init()
+//        super.init()
         
         defer {
             self.successDeepLink = successDeepLink
@@ -61,12 +61,45 @@ class Shortcut: NSObject, Identifiable {
     }
 }
 
-struct UtilityShortcuts {
-    // TODO does Cancel need a different deep link? Is cancel even possible for this shortcut?
-    static let importShortcuts = Shortcut(name: "Get My Shortcuts",
-                                         successDeepLink: .importShortcuts,
-                                         cancelDeepLink: .needsToInstallGetMyShortcuts,
-                                         errorDeepLink: .needsToInstallGetMyShortcuts)
+class UtilityShortcut: Shortcut {
+    let description: String
+    let installationURL: URL
+    let systemImageName: String
+    let iconColor: Color
+    
+    init(name: String,
+         description: String,
+         installationURL: URL,
+         systemImageName: String,
+         iconColor: Color,
+         successDeepLink: DeepLink? = nil,
+         cancelDeepLink: DeepLink? = nil,
+         errorDeepLink: DeepLink? = nil) {
+        self.description = description
+        self.installationURL = installationURL
+        self.systemImageName = systemImageName
+        self.iconColor = iconColor
+        super.init(name: name, successDeepLink: successDeepLink, cancelDeepLink: cancelDeepLink, errorDeepLink: errorDeepLink)
+    }
+}
+
+enum PackagedShortcut: CaseIterable {
+    case importShortcuts
+    
+    var shortcut: UtilityShortcut {
+        switch self {
+        case .importShortcuts:
+            // TODO does Cancel need a different deep link? Is cancel even possible for this shortcut?
+            return UtilityShortcut(name: "Get My Shortcuts",
+                                   description: "Fetches the names of all the shortcuts installed on your device.",
+                                   installationURL: URL(string: "https://www.icloud.com/shortcuts/a6669a9f0899499896457d30ff8ad4b8")!,
+                                   systemImageName: "s.square",
+                                   iconColor: .blue,
+                                   successDeepLink: .importShortcuts,
+                                   cancelDeepLink: .needsToInstallGetMyShortcuts,
+                                   errorDeepLink: .needsToInstallGetMyShortcuts)
+        }
+    }
 }
 
 struct ShortcutRunner {
