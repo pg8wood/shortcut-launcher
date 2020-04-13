@@ -57,7 +57,7 @@ struct ShortcutInputView: View {
                 )
             }
         case .none:
-            return AnyView(InputErrorView())
+            return AnyView(InputErrorView().environmentObject(self.shortcutIntentState))
         }
     }
     

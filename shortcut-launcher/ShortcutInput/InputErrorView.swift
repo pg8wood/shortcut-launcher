@@ -9,9 +9,11 @@
 import SwiftUI
 
 struct InputErrorView: View {
+    @EnvironmentObject var shortcutIntentState: ShortcutIntentState
+    
     var body: some View {
         GeometryReader { geometry in
-            ScrollView {
+            VStack {
                 Image(systemName: "slash.circle.fill")
                     .resizable()
                     .scaledToFit()
@@ -24,13 +26,14 @@ struct InputErrorView: View {
                     .padding()
                 
                 Text("No prompt was given, or Shortcuts Launcher can't figure out which type of input the shortcut was asking for.")
+                .fixedSize(horizontal: false, vertical: true)
+                
         
                 self.resolutionInfo
-                    .frame(width: geometry.size.width, height: 400, alignment: .leading)
                     .padding(.top, 16)
-//                    .background(Color.red)
+                
+                self.cancelButton
             }
-//            .listStyle(GroupedListStyle())
         }
         .padding()
         .background(Color(.systemGroupedBackground))
@@ -43,6 +46,7 @@ struct InputErrorView: View {
                 .listRowInsets(EdgeInsets())
         }
         
+        // This should probably be redesigned/redone to prevent double scrolling in the list/scroll view
         return List {
             Section(header: sectionHeader("Resolutions")) {
                 directRunExplanationView
@@ -59,13 +63,35 @@ struct InputErrorView: View {
     }
     
     var directRunExplanationView: some View {
-        NavigationLink(destination: InstallShortcutsView()) {
+        NavigationLink(destination: InstallShortcutsView().padding(.top, 32)) {
             Group {
                 Text("Don't run the") +
                     Text(" Shortcuts Launcher shortcuts ").bold().foregroundColor(.gray) +
                 Text("directly. Instead, use them in your own shortcuts.")
             }
         }
+    }
+    
+    private var cancelButton: some View {
+        var background: some View {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.red)
+        }
+        
+        return Button(action: {
+            self.cancelShortcut()
+        }, label: {
+            Text("Cancel Shortcut")
+                .foregroundColor(.white)
+                .fontWeight(.medium)
+                .padding(12)
+                .background(background)
+        })
+    }
+    
+    private func cancelShortcut() {
+        UIPasteboard.general.string = AppConfig.cancelShortcutIdentifier
+        self.shortcutIntentState.reset()
     }
 }
 
