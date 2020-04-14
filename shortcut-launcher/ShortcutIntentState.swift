@@ -18,7 +18,7 @@ class ShortcutIntentState: ObservableObject {
     @Published var currentPrompt: String = ""
     @Published var choices: [String] = []
     
-    var intentType: IntentType? = .askForInput
+    var intentType: IntentType?
         
     func reset() {
         isRequestingUserInput = false

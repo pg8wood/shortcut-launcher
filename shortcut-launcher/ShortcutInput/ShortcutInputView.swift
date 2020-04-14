@@ -12,41 +12,36 @@ struct ShortcutInputView: View {
     @EnvironmentObject var shortcutIntentState: ShortcutIntentState
     @State private var input: String = ""
     
-    var prompt: String {
-        var defaultPrompt: String {
-            switch shortcutIntentState.intentType {
-            case .askForInput:
-                return "Enter your response"
-            case .chooseFromList:
-                return "Choose an item"
-            case .none:
-                return "An error occurred"
-            }
-        }
-        
-        return shortcutIntentState.currentPrompt.isEmpty ? defaultPrompt : shortcutIntentState.currentPrompt
-    }
-    
-    
     var body: some View {
-        VStack {
-            inputView
-            Spacer()
+        NavigationView {
+            VStack {
+                inputView
+                Spacer()
+            }
+            .padding()
+            .navigationBarTitle("Responding to Shortcuts", displayMode: .inline)
+            .navigationBarItems(trailing:
+                Button("Cancel") {
+                    self.sendInputToShortcuts(AppConfig.cancelShortcutIdentifier)
+                }
+            )
         }
-        .padding()
     }
     
     private var inputView: AnyView {
         switch shortcutIntentState.intentType {
         case .askForInput:
             return AnyView(
-                VStack {
-                    Text("Responding to Shortcuts")
-                        .font(.title)
-                        .padding(.bottom, 25)
-                    TextField(prompt, text: $input, onCommit: {
+                VStack(alignment: .leading) {
+                    Text(shortcutIntentState.currentPrompt)
+                        .font(.headline)
+                        .bold()
+                    TextField("Enter your response", text: $input, onCommit: {
                         self.sendInputToShortcuts(self.input)
-                    }).textFieldStyle(RoundedBorderTextFieldStyle())
+                    })
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .navigationBarTitle("Test")
+                    Spacer()
             })
         case .chooseFromList:
             if shortcutIntentState.choices.isEmpty {
@@ -54,7 +49,7 @@ struct ShortcutInputView: View {
             } else {
                 return AnyView(
                     VStack {
-                        Text(prompt)
+                        Text(shortcutIntentState.currentPrompt)
                             .font(.title)
                             .padding(.bottom, 25)
                         choicesView
@@ -62,12 +57,8 @@ struct ShortcutInputView: View {
                 )
             }
         case .none:
-            return noIntentTypeErrorView
+            return AnyView(InputErrorView().environmentObject(self.shortcutIntentState))
         }
-    }
-    
-    private var noIntentTypeErrorView: AnyView {
-        AnyView(Text("Shortcuts has opened shortcut-handler with an invalid input type. Please try again."))
     }
     
     private var choicesView: some View {
@@ -102,5 +93,6 @@ struct ShortcutInputView: View {
 struct ShortcutInputView_Previews: PreviewProvider {
     static var previews: some View {
         ShortcutInputView()
+            .environmentObject(ShortcutIntentState())
     }
 }

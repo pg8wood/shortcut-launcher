@@ -10,22 +10,43 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var shortcutIntentState: ShortcutIntentState
+    @EnvironmentObject var deepLinkHandler: DeepLinkHandler
     
     let shortcuts: [Shortcut]
     
-    private let getMyShortcutsShortcut = Shortcut(name: "Get My Shortcuts")
-
+    @State private var returnToAppOnCompletion = false
     @State private var showInvalidShortcutAlert = false
-    @State private var returnToAppOnCompletion = true
     
     var body: some View {
-        contentview
-            .sheet(isPresented: $shortcutIntentState.isRequestingUserInput, onDismiss: {
-                ShortcutsExecution.openShortcuts()
-            }, content: {
-                ShortcutInputView()
-                    .environmentObject(self.shortcutIntentState)
-            })
+        NavigationView {
+            VStack(spacing: 32) {
+                contentview
+                    .sheet(isPresented: $shortcutIntentState.isRequestingUserInput, onDismiss: {
+                        ShortcutRunner.openShortcuts()
+                    }, content: {
+                        ShortcutInputView()
+                            .environmentObject(self.shortcutIntentState)
+                    })
+                
+                Button(action: {
+                    let invalidShortcut = Shortcut(name: "Shortcut that doesn't exist")
+                    invalidShortcut.successDeepLink = .openApp
+                    invalidShortcut.cancelDeepLink = .openApp
+                    invalidShortcut.errorDeepLink = .openApp
+                    ShortcutRunner.runShortcut(invalidShortcut)
+                }, label: { Text("Open invalid Shortcut") })
+                    .alert(isPresented: self.$showInvalidShortcutAlert) {
+                        shortcutsErrorAlert
+                }
+                .onReceive(deepLinkHandler.$shortcutErrorMessage) { errorMessage in
+                    self.showInvalidShortcutAlert = errorMessage != nil
+                }
+                
+                NavigationLink(destination: InstallShortcutsView()) {
+                    Text("Install Shortcuts")
+                }
+            }
+        }
     }
     
     private var contentview: AnyView {
@@ -39,39 +60,55 @@ struct ContentView: View {
     private var importShortcutsButton: AnyView {
         AnyView(
             Button(action: {
-                self.runShortcut(self.getMyShortcutsShortcut)
+                ShortcutRunner.runShortcut(PackagedShortcut.importShortcuts.shortcut)
             }, label: {
                 Text("Import Shortcuts")
             })
+            .alert(isPresented: $deepLinkHandler.needsToInstallGetMyShortcuts) {
+                Alert(title: Text("Could Not Import Shortcuts"), message: Text("Please install the \"Get My Shortcuts\" shortcut to import your shortcuts."),
+                      dismissButton: .default(Text("OK")) {
+                        self.deepLinkHandler.needsToInstallGetMyShortcuts = false
+                })
+            }
+            .navigationBarTitle("Import Your Shortcuts")
         )
     }
     
     private var shortcutsList: AnyView {
         AnyView (
             VStack {
-                Text("Select a Shortcut to run")
-                    .font(.headline)
                 Toggle("Return to app after shortcut completes", isOn: $returnToAppOnCompletion)
                 List {
                     ForEach(shortcuts) { shortcut in
                         Button(action: {
-                            self.runShortcut(shortcut)
+                            self.runShortcut(shortcut, returningtoAppOnCompletion: self.returnToAppOnCompletion)
                         }, label: {
                             Text(shortcut.name)
                         })
-                        .alert(isPresented: self.$showInvalidShortcutAlert) {
-                            Alert(title: Text("Invalid shortcut"), message: Text("The shortcut does not exist."), dismissButton: .default(Text("OK")))
-                        }
                     }
                 }
             }
+            .navigationBarTitle("My Shortcuts")
             .padding()
         )
     }
     
-    private func runShortcut(_ shortcut: Shortcut) {
-        let shortcutLaunchSuccess = ShortcutsExecution.runShortcut(shortcut, returningToAppOnCompletion: returnToAppOnCompletion)
-        self.showInvalidShortcutAlert = !shortcutLaunchSuccess
+    private var shortcutsErrorAlert: Alert {
+        Alert(title: Text(self.deepLinkHandler.shortcutErrorMessage ?? "An unknown error occurred"),
+              dismissButton: .default(Text("OK")) {
+                self.deepLinkHandler.shortcutErrorMessage = nil
+            })
+    }
+    
+    private func runShortcut(_ shortcut: Shortcut, returningtoAppOnCompletion: Bool) {
+        var shortcut = shortcut
+        if returningtoAppOnCompletion {
+            shortcut.successDeepLink = .openApp
+            shortcut.cancelDeepLink = .openApp
+            shortcut.errorDeepLink = .openApp
+        }
+        
+        ShortcutRunner.runShortcut(shortcut)
     }
 }
 

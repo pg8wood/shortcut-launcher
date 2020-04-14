@@ -14,13 +14,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     private let shortcutIntentState = ShortcutIntentState()
+    private let deepLinkHandler = DeepLinkHandler()
     
     private var headGazeWindow: HeadGazeWindow!
+   
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 //        presentContentView(in: scene)
-        
-        
         
          if let windowScene = scene as? UIWindowScene {
             UIApplication.shared.isIdleTimerDisabled = true
@@ -33,36 +33,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        for context in URLContexts {
-            let shortcuts = shortcutNames(in: context.url)
-            
-            if !shortcuts.isEmpty {
-                
-                presentContentView(in: scene, with: shortcuts)
-                break
-            }
-        }
-    }
-    
-    private func shortcutNames(in url: URL) -> [String] {
-        guard url.scheme == "shortcut-launcher",
-            let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems,
-            let shortcutNameResults = queryItems.first(where: { $0.name == "result" })?.value else {
-                return []
+        guard let url = URLContexts.first?.url else {
+            return
         }
         
-        return shortcutNameResults.components(separatedBy: "\n")
+        deepLinkHandler.handleDeepLink(url, in: scene)
     }
     
-    private func presentContentView(in scene: UIScene, with shortcutNames: [String] = []) {
+    func presentContentView(in scene: UIScene, with shortcutNames: [String] = []) {
         let shortcuts = shortcutNames.map { Shortcut(name: $0) }
         let contentView = ContentView(shortcuts: shortcuts)
             .environmentObject(shortcutIntentState)
+            .environmentObject(deepLinkHandler)
         
-        let child = UIHostingController(rootView: contentView)
         let trackingContainerViewController = headGazeWindow.rootViewController as! TrackingContainerViewController
         let mainViewController = trackingContainerViewController.children[1] as! MainViewController
-        mainViewController.showShortcutsList(shortcuts)
+        let hostingController = UIHostingController(rootView: contentView)
+//        hostingController.modalPresentationStyle = .fullScreen
+        mainViewController.present(hostingController, animated: true)
         //            self.window = window
         //            window.makeKeyAndVisible()
         
@@ -73,20 +61,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         
-        switch intent {
-        case let intent as AskInShortcutLauncherIntent:
-            shortcutIntentState.isRequestingUserInput = true
-            shortcutIntentState.currentPrompt = intent.prompt ?? ""
-            shortcutIntentState.intentType = .askForInput
-        case let intent as ChooseFromListIntent:
-            let choices = intent.list ?? []
-            
-            shortcutIntentState.isRequestingUserInput = true
-            shortcutIntentState.currentPrompt = intent.prompt ?? ""
-            shortcutIntentState.choices = choices
-            shortcutIntentState.intentType = .chooseFromList
-        default:
-            break
-        }
+        IntentHandler.handleIntent(intent, with: shortcutIntentState)
     }
 }
