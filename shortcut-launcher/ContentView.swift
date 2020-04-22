@@ -19,7 +19,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 32) {
+            ZStack {
                 contentview
                     .sheet(isPresented: $shortcutIntentState.isRequestingUserInput, onDismiss: {
                         ShortcutRunner.openShortcuts()
@@ -28,22 +28,8 @@ struct ContentView: View {
                             .environmentObject(self.shortcutIntentState)
                     })
                 
-                Button(action: {
-                    let invalidShortcut = Shortcut(name: "Shortcut that doesn't exist")
-                    invalidShortcut.successDeepLink = .openApp
-                    invalidShortcut.cancelDeepLink = .openApp
-                    invalidShortcut.errorDeepLink = .openApp
-                    ShortcutRunner.runShortcut(invalidShortcut)
-                }, label: { Text("Open invalid Shortcut") })
-                    .alert(isPresented: self.$showInvalidShortcutAlert) {
-                        shortcutsErrorAlert
-                }
-                .onReceive(deepLinkHandler.$shortcutErrorMessage) { errorMessage in
-                    self.showInvalidShortcutAlert = errorMessage != nil
-                }
-                
-                NavigationLink(destination: InstallShortcutsView()) {
-                    Text("Install Shortcuts")
+                if showInvalidShortcutAlert {
+                    GazeEatingView()
                 }
             }
         }
@@ -77,20 +63,53 @@ struct ContentView: View {
     private var shortcutsList: AnyView {
         AnyView (
             VStack {
-                Toggle("Return to app after shortcut completes", isOn: $returnToAppOnCompletion)
+                Toggle("Return here when the shortcut completes", isOn: $returnToAppOnCompletion)
                 List {
-                    ForEach(shortcuts) { shortcut in
-                        Button(action: {
-                            self.runShortcut(shortcut, returningtoAppOnCompletion: self.returnToAppOnCompletion)
-                        }, label: {
-                            Text(shortcut.name)
-                        })
+                    ForEach(shortcuts.sorted { $0.name < $1.name }) { shortcut in
+                        self.shortcutListItem(shortcut)
                     }
+                    
+                    self.sampleInvalidShortcutListItem
                 }
             }
             .navigationBarTitle("My Shortcuts")
             .padding()
         )
+    }
+    
+    private var sampleInvalidShortcutListItem: some View {
+        let invalidShortcut = Shortcut(name: "Shortcut that doesn't exist")
+        invalidShortcut.successDeepLink = .openApp
+        invalidShortcut.cancelDeepLink = .openApp
+        invalidShortcut.errorDeepLink = .openApp
+        
+        return shortcutListItem(invalidShortcut)
+            .foregroundColor(.red)
+            .alert(isPresented: self.$showInvalidShortcutAlert) {
+                shortcutsErrorAlert
+            }
+            .onReceive(deepLinkHandler.$shortcutErrorMessage) { errorMessage in
+                self.showInvalidShortcutAlert = errorMessage != nil
+            }
+    }
+    
+    private func shortcutListItem(_ shortcut: Shortcut) -> some View {
+        HStack(spacing: 16) {
+            if shortcut.image != nil {
+                Image(uiImage: shortcut.image!)
+                    .resizable()
+                    .scaledToFit()
+                    .padding(.vertical, 8)
+            }
+            
+            Button(action: {
+                self.runShortcut(shortcut, returningtoAppOnCompletion: self.returnToAppOnCompletion)
+            }, label: {
+                Text(shortcut.name)
+            })
+        }
+        .frame(height: 75)
+        .listRowInsets(EdgeInsets())
     }
     
     private var shortcutsErrorAlert: Alert {
@@ -101,7 +120,6 @@ struct ContentView: View {
     }
     
     private func runShortcut(_ shortcut: Shortcut, returningtoAppOnCompletion: Bool) {
-        var shortcut = shortcut
         if returningtoAppOnCompletion {
             shortcut.successDeepLink = .openApp
             shortcut.cancelDeepLink = .openApp
@@ -114,6 +132,10 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(shortcuts: ["My first shortcut"].map { Shortcut(name: $0) })
+        ContentView(shortcuts: ["My first shortcut"].map {
+            Shortcut(name: $0, image: UIImage(systemName: "s.square"))
+        })
+        .environmentObject(ShortcutIntentState())
+        .environmentObject(DeepLinkHandler())
     }
 }

@@ -28,5 +28,19 @@ struct AppConfig {
         }
     }
     
+    static var selectionHoldDuration: TimeInterval = 1
+    
     static let headTrackingValueSubject = CurrentValueSubject<Bool, Never>(isHeadTrackingEnabled)
+    
+    static let appURL = "\(appURLScheme)://"
+    
+    static var appURLScheme: String {
+        let urlTypes = Bundle.main.infoDictionary?["CFBundleURLTypes"] as! [AnyObject]
+        let urlTypeDictionary = urlTypes.first as! [String: AnyObject]
+        let urlSchemes = urlTypeDictionary["CFBundleURLSchemes"] as! [AnyObject]
+        
+        return urlSchemes.first as! String
+    }
+    
+    static let cancelShortcutIdentifier = "Cancel shortcut"
 }

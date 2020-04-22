@@ -9,25 +9,72 @@
 import UIKit
 import SwiftUI
 
-class MainViewController: UIViewController {
-    private let getMyShortcutsShortcut = Shortcut(name: "Get My Shortcuts")
-    private let shortcutIntentState = ShortcutIntentState()
-    @IBOutlet weak var importButton: UIButton!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+enum ShortcutImportState {
+    case notImported
+    case loading
+    case imported(shortcuts: [Shortcut])
+    case error
+}
 
-        // Do any additional setup after loading the view.
-    }
+class MainViewController: UIViewController {
     
-    @IBAction func importButtonSelected(_ sender: UIButton) {
-        ShortcutsExecution.runShortcut(getMyShortcutsShortcut, returningToAppOnCompletion: true)
-    }
-    
-    func showShortcutsList(_ shortcuts: [Shortcut]) {
-        let contentView = ContentView(shortcuts: shortcuts)
-            .environmentObject(shortcutIntentState)
+    var shortcutIntentState: ShortcutIntentState!
+    var deepLinkHandler: DeepLinkHandler!
         
+    var shortcutImportState: ShortcutImportState = .notImported {
+        didSet {
+            // TODO use a loading indicator or something to convey this state
+            switch shortcutImportState {
+            case .notImported:
+                break
+            case .loading:
+                break
+            case .imported(let shortcuts):
+                self.shortcuts = shortcuts
+                break
+            case .error:
+                break
+            }
+        }
+    }
+
+    var shortcuts: [Shortcut] = []
+    
+    @IBAction func didSelectInstallShortcutsButton(_ sender: UIButton) {
+        func presentInstallShortcutsView() {
+            let hostingController = UIHostingController(rootView: InstallShortcutsView())
+            hostingController.title = "Install Shortcuts"
+            
+            navigationController?.pushViewController(hostingController, animated: true)
+        }
+
+        presentInstallShortcutsView()
+    }
+    
+    @IBAction func didSelectImportButton(_ sender: UIButton) {
+        ShortcutRunner.runShortcut(PackagedShortcut.importShortcuts.shortcut)
+        shortcutImportState = .loading
+    }
+    
+    @IBAction func didSelectMyShortcutsButton(_ sender: UIButton) {
+        if shortcuts.isEmpty {
+            ShortcutRunner.runShortcut(PackagedShortcut.importShortcuts.shortcut)
+            shortcutImportState = .loading
+        } else {
+            presentMyShortcutsView()
+        }
+    }
+    
+    func presentMyShortcutsView() {
+        let runnableShortcuts = shortcuts.filter {
+            let packagedShortcutNames = PackagedShortcut.allCases.map({ $0.name })
+            
+            return !packagedShortcutNames.contains($0.name)
+        }
+        
+        let contentView = ContentView(shortcuts: runnableShortcuts)
+            .environmentObject(shortcutIntentState)
+            .environmentObject(deepLinkHandler)
         let hostingController = UIHostingController(rootView: contentView)
         present(hostingController, animated: true)
     }

@@ -13,18 +13,21 @@ struct ShortcutInputView: View {
     @State private var input: String = ""
     
     var body: some View {
-        NavigationView {
-            VStack {
-                inputView
-                Spacer()
-            }
-            .padding()
-            .navigationBarTitle("Responding to Shortcuts", displayMode: .inline)
-            .navigationBarItems(trailing:
-                Button("Cancel") {
-                    self.sendInputToShortcuts(AppConfig.cancelShortcutIdentifier)
+        ZStack {
+            GazeEatingView()
+            NavigationView {
+                VStack {
+                    inputView
+                    Spacer()
                 }
-            )
+                .padding()
+                .navigationBarTitle("Responding to Shortcuts", displayMode: .inline)
+                .navigationBarItems(trailing:
+                    Button("Cancel") {
+                        self.sendInputToShortcuts(AppConfig.cancelShortcutIdentifier)
+                    }
+                )
+            }
         }
     }
     
@@ -92,7 +95,12 @@ struct ShortcutInputView: View {
 
 struct ShortcutInputView_Previews: PreviewProvider {
     static var previews: some View {
-        ShortcutInputView()
-            .environmentObject(ShortcutIntentState())
+        let state = ShortcutIntentState()
+        state.isRequestingUserInput = true
+        state.currentPrompt = "Test prompt"
+        state.intentType = .askForInput
+        
+        return ShortcutInputView()
+            .environmentObject(state)
     }
 }

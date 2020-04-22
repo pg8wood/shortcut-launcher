@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CvH-fK-txz">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,7 +24,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AQq-Gr-kNC" userLabel="ContentViewController">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <connections>
-                                    <segue destination="bR9-b7-TsP" kind="embed" id="P97-QK-BTx"/>
+                                    <segue destination="eCT-T4-y5V" kind="embed" id="21h-KU-7iS"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -47,7 +47,7 @@
             </objects>
             <point key="canvasLocation" x="-1455" y="-1458"/>
         </scene>
-        <!--Main View Controller-->
+        <!--Shortcut Setup-->
         <scene sceneID="Yj4-58-32O">
             <objects>
                 <viewController id="bR9-b7-TsP" customClass="MainViewController" customModule="shortcut_launcher" customModuleProvider="target" sceneMemberID="viewController">
@@ -55,28 +55,51 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WJc-R6-V7o">
-                                <rect key="frame" x="164.5" y="318.5" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="importButtonSelected:" destination="bR9-b7-TsP" eventType="primaryActionTriggered" id="AKd-nG-wwo"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="6uw-dG-DZ1">
+                                <rect key="frame" x="67.5" y="222.5" width="240" height="222"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONr-H1-r70">
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="54"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <inset key="contentEdgeInsets" minX="16" minY="16" maxX="16" maxY="16"/>
+                                        <state key="normal" title="Install Required Shortcuts"/>
+                                        <connections>
+                                            <action selector="didSelectInstallShortcutsButton:" destination="bR9-b7-TsP" eventType="touchUpInside" id="Buj-AI-1QG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WJc-R6-V7o">
+                                        <rect key="frame" x="0.0" y="86" width="240" height="54"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <inset key="contentEdgeInsets" minX="16" minY="16" maxX="16" maxY="16"/>
+                                        <state key="normal" title="Import Shortcuts"/>
+                                        <connections>
+                                            <action selector="didSelectImportButton:" destination="bR9-b7-TsP" eventType="touchUpInside" id="KwE-ug-CgG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g2k-Tw-9Jw">
+                                        <rect key="frame" x="0.0" y="172" width="240" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <inset key="contentEdgeInsets" minX="16" minY="-16" maxX="16" maxY="-16"/>
+                                        <state key="normal" title="My Shortcuts"/>
+                                        <connections>
+                                            <action selector="didSelectMyShortcutsButton:" destination="bR9-b7-TsP" eventType="touchUpInside" id="7pm-Pu-9uo"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="WJc-R6-V7o" firstAttribute="centerY" secondItem="BQJ-G1-AEL" secondAttribute="centerY" id="6t3-d2-8Bq"/>
-                            <constraint firstItem="WJc-R6-V7o" firstAttribute="centerX" secondItem="BQJ-G1-AEL" secondAttribute="centerX" id="J47-J1-ZQS"/>
+                            <constraint firstItem="6uw-dG-DZ1" firstAttribute="centerY" secondItem="BQJ-G1-AEL" secondAttribute="centerY" id="4qT-Ba-40P"/>
+                            <constraint firstItem="6uw-dG-DZ1" firstAttribute="centerX" secondItem="BQJ-G1-AEL" secondAttribute="centerX" id="zPB-RJ-rAZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="pdQ-10-ZIl"/>
                     </view>
-                    <connections>
-                        <outlet property="importButton" destination="WJc-R6-V7o" id="31t-z2-y7b"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="Shortcut Setup" largeTitleDisplayMode="always" id="v2z-ia-s30"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B2E-cg-tHm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-434" y="-1479"/>
+            <point key="canvasLocation" x="332" y="-1433"/>
         </scene>
         <!--Head Gaze View Controller-->
         <scene sceneID="RBx-lz-Ojp">
@@ -92,6 +115,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BPb-7J-yob" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-489" y="-2119"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="AEy-dI-zw0">
+            <objects>
+                <navigationController id="eCT-T4-y5V" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="cqH-sA-4PD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="bR9-b7-TsP" kind="relationship" relationship="rootViewController" id="KGD-vJ-bAJ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OPJ-ke-Id4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-490" y="-1433"/>
         </scene>
     </scenes>
 </document>

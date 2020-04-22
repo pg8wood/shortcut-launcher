@@ -53,10 +53,29 @@ class DeepLinkHandler: ObservableObject {
         case .openApp:
             break
         case .importShortcuts:
-            let shortcuts = shortcutNames(in: queryItems)
+            guard let dictionaryQueryItem = queryItems.first(where: { $0.name == "shortcuts" })?.value,
+                let shortcutDictionary: [String: String] = try? JSONDecoder().decode([String: String].self, from: Data(dictionaryQueryItem.utf8)) else {
+                return
+            }
             
-            if !shortcuts.isEmpty {
-                sceneDelegate.presentContentView(in: scene, with: shortcuts)
+            func decodeBase64Image(_ base64String: String) -> UIImage? {
+                guard let data = Data(base64Encoded: base64String, options: .ignoreUnknownCharacters) else {
+                    return nil
+                }
+                
+                return UIImage(data: data)
+            }
+            
+            
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                let importedShortcuts = shortcutDictionary.map { Shortcut(name: $0.key, image: decodeBase64Image($0.value)) }
+                
+                DispatchQueue.main.async {
+                    if !importedShortcuts.isEmpty {
+                        sceneDelegate.presentContentView(in: scene, with: importedShortcuts)
+                    }
+                }
             }
         case .needsToInstallGetMyShortcuts:
             needsToInstallGetMyShortcuts = true
@@ -72,5 +91,17 @@ class DeepLinkHandler: ObservableObject {
         }
         
         return shortcutNameResults.components(separatedBy: "\n")
+    }
+}
+
+private extension String
+{
+    func encodeUrl() -> String?
+    {
+        return self.addingPercentEncoding( withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
+    }
+    func decodeUrl() -> String?
+    {
+        return self.removingPercentEncoding
     }
 }

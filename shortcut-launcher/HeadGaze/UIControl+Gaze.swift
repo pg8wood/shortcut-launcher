@@ -86,6 +86,7 @@ extension UIControl {
             isSelected = true
             (self.window as? HeadGazeWindow)?.animateCursorSelection()
             didSelectFromGaze()
+            gazeBeganDate = Date()
         }
     }
     

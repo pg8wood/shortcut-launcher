@@ -11,11 +11,6 @@ import SwiftUI
 struct InstallShortcutListItem: View {
     let shortcut: UtilityShortcut
     
-    private let textHeight: CGFloat = 50
-    private var imageHeight: CGFloat {
-        2 / 3 * textHeight
-    }
-    
     var body: some View {
         VStack(alignment: .leading) {
             header
@@ -40,7 +35,11 @@ struct InstallShortcutListItem: View {
     }
     
     private var header: some View {
-        HStack(alignment: .center, spacing: 10) {
+        // TODO: This would probaby be better done with a GeometryReader
+        let textHeight: CGFloat = 50
+        let imageHeight: CGFloat = 2 / 3 * textHeight
+        
+        return HStack(alignment: .center, spacing: 10) {
             Image(systemName: shortcut.systemImageName)
                 .resizable()
                 .scaledToFit()
@@ -54,8 +53,6 @@ struct InstallShortcutListItem: View {
                 .lineLimit(nil)
                 .font(.system(size: 18, weight: .bold))
                 .multilineTextAlignment(.leading)
-                
-//                .frame(height: textHeight)
             
             Spacer()
             

@@ -293,6 +293,17 @@ class HeadGazeWindow: UIWindow {
     }
 }
 
+//import SwiftUI
+@objc extension UITableViewCell {
+    override var canReceiveGaze: Bool {
+        return false
+    }
+    
+    override func gazeBegan(_ gaze: UIHeadGaze, with event: UIHeadGazeEvent?) {
+        print("yay")
+    }
+}
+
 @objc extension UIView {
 
     var canReceiveGaze: Bool {

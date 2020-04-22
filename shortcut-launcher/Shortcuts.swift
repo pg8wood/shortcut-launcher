@@ -11,6 +11,7 @@ import SwiftUI
 class Shortcut: Identifiable {
     var id = UUID()
     var name: String
+    var image: UIImage?
     
     // Deep links back into the app that will trigger according to the shortcut's return value.
     
@@ -46,12 +47,12 @@ class Shortcut: Identifiable {
     }
     
     init(name: String,
+         image: UIImage? = nil,
          successDeepLink: DeepLink? = nil,
          cancelDeepLink: DeepLink? = nil,
          errorDeepLink: DeepLink? = nil) {
         self.name = name
-        
-//        super.init()
+        self.image = image
         
         defer {
             self.successDeepLink = successDeepLink
@@ -88,30 +89,33 @@ enum PackagedShortcut: CaseIterable {
     case proxyKeyboardInput
     case proxyChooseFromList
     
+    var name: String {
+        shortcut.name
+    }
+    
     // TODO: update iCloud URLs once the app name is chosen. Otherwise the old app name will display in the shortcut.
     // TODO does Cancel need a different deep link? Is cancel even possible for these shortcuts?
-    // TODO: use actual Shortcuts color?
     var shortcut: UtilityShortcut {
         switch self {
         case .importShortcuts:
             return UtilityShortcut(name: "Get My Shortcuts",
                                    description: "Fetches the names of all the shortcuts installed on your device.",
-                                   installationURL: URL(string: "https://www.icloud.com/shortcuts/a6669a9f0899499896457d30ff8ad4b8")!,
+                                   installationURL: URL(string: "https://www.icloud.com/shortcuts/5cfba321d82e4af99590de4c596fa909")!,
                                    systemImageName: "s.square",
                                    iconColor: .red,
                                    successDeepLink: .importShortcuts,
                                    cancelDeepLink: .needsToInstallGetMyShortcuts,
                                    errorDeepLink: .needsToInstallGetMyShortcuts)
         case .proxyKeyboardInput:
-            return UtilityShortcut(name: "Proxy Keyboard Input to Shortcut Launcher",
+            return UtilityShortcut(name: "Proxy Input to Shortcut Launcher",
                                    description: "Opens Shortcut Launcher to respond to a shortcut's request for input.",
-                                   installationURL: URL(string: "https://www.icloud.com/shortcuts/a7396fd43df0483db52e4556a6325aad")!,
+                                   installationURL: URL(string: "https://www.icloud.com/shortcuts/d28f6303dcba4e7aa9bcf7d3c453c955")!,
                                    systemImageName: "keyboard",
                                    iconColor: .pink)
         case .proxyChooseFromList:
             return UtilityShortcut(name: "Choose From List in Shortcut Launcher",
                                    description: "Opens Shortcut Launcher to choose from a list of options provided by a shortcut.",
-                                   installationURL: URL(string: "https://www.icloud.com/shortcuts/08195880da2b4b19b59c3e8c7acca05a")!,
+                                   installationURL: URL(string: "https://www.icloud.com/shortcuts/a024b4981bc6412ab4c6ef7012d4233b")!,
                                    systemImageName: "list.bullet",
                                    iconColor: .blue)
         }

@@ -40,20 +40,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         deepLinkHandler.handleDeepLink(url, in: scene)
     }
     
-    func presentContentView(in scene: UIScene, with shortcutNames: [String] = []) {
-        let shortcuts = shortcutNames.map { Shortcut(name: $0) }
-        let contentView = ContentView(shortcuts: shortcuts)
-            .environmentObject(shortcutIntentState)
-            .environmentObject(deepLinkHandler)
-        
+    func presentContentView(in scene: UIScene, with shortcuts: [Shortcut] = []) {
         let trackingContainerViewController = headGazeWindow.rootViewController as! TrackingContainerViewController
-        let mainViewController = trackingContainerViewController.children[1] as! MainViewController
-        let hostingController = UIHostingController(rootView: contentView)
-//        hostingController.modalPresentationStyle = .fullScreen
-        mainViewController.present(hostingController, animated: true)
-        //            self.window = window
-        //            window.makeKeyAndVisible()
+        let navigationController = trackingContainerViewController.children[1] as! UINavigationController
+        let mainViewController = navigationController.viewControllers[0] as! MainViewController
         
+        mainViewController.deepLinkHandler = deepLinkHandler
+        mainViewController.shortcutIntentState = shortcutIntentState
+        
+        mainViewController.shortcutImportState = .imported(shortcuts: shortcuts)
+        mainViewController.presentMyShortcutsView()
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {

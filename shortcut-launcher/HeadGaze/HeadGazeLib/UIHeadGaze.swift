@@ -31,7 +31,7 @@ class UIHeadGaze: UITouch {
         self.init(curPosition: position, prevPosition: position, view: uiview, win: window)
     }
 
-    init(curPosition: CGPoint, prevPosition: CGPoint, view uiview: UIView, win window: UIWindow? = nil) {
+    init(curPosition: CGPoint, prevPosition: CGPoint, view uiview: UIView, win window: UIWindow? = nil) {   
         self._window = window
         self._receiver = uiview
         self._position = curPosition

@@ -61,6 +61,8 @@
 		B8D836D424426910003C1A87 /* DeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D836D324426910003C1A87 /* DeepLinkHandler.swift */; };
 		B8D836D624428718003C1A87 /* InstallShortcutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D836D524428718003C1A87 /* InstallShortcutsView.swift */; };
 		B8D836D82442C04D003C1A87 /* InstallShortcutListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D836D72442C04D003C1A87 /* InstallShortcutListItem.swift */; };
+		B8DFAE782446933100A34BE2 /* GazeEatingUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DFAE772446933100A34BE2 /* GazeEatingUIView.swift */; };
+		B8DFAE7A244693D800A34BE2 /* GazeEatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DFAE79244693D800A34BE2 /* GazeEatingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +144,8 @@
 		B8D836D324426910003C1A87 /* DeepLinkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkHandler.swift; sourceTree = "<group>"; };
 		B8D836D524428718003C1A87 /* InstallShortcutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallShortcutsView.swift; sourceTree = "<group>"; };
 		B8D836D72442C04D003C1A87 /* InstallShortcutListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallShortcutListItem.swift; sourceTree = "<group>"; };
+		B8DFAE772446933100A34BE2 /* GazeEatingUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GazeEatingUIView.swift; sourceTree = "<group>"; };
+		B8DFAE79244693D800A34BE2 /* GazeEatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GazeEatingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +210,7 @@
 				B8876E40243FBEB300583FE9 /* shortcut-launcher.entitlements */,
 				B8876E0C243F9AE200583FE9 /* AppDelegate.swift */,
 				B8876E0E243F9AE200583FE9 /* SceneDelegate.swift */,
+				B8DFAE79244693D800A34BE2 /* GazeEatingView.swift */,
 				B8D836D324426910003C1A87 /* DeepLinkHandler.swift */,
 				B8AB986D243FC41400C8F6F6 /* ShortcutIntentState.swift */,
 				B86D96972443C53100B808B5 /* ShortcutInput */,
@@ -273,6 +278,7 @@
 				B8D8368624411CFB003C1A87 /* UIHeadGazeViewController.swift */,
 				B8D8368724411CFB003C1A87 /* HeadGazeTrackingInterpolator.swift */,
 				B8D8368824411CFB003C1A87 /* HeadGazeWindow.swift */,
+				B8DFAE772446933100A34BE2 /* GazeEatingUIView.swift */,
 				B8D8368924411CFB003C1A87 /* UIHeadGaze.swift */,
 				B8D8368A24411CFB003C1A87 /* UIHeadGazeEvent.swift */,
 				B8D8368B24411CFB003C1A87 /* Extensions.swift */,
@@ -506,6 +512,7 @@
 				B8D836AE24411CFB003C1A87 /* HeadGazeTrackingInterpolator.swift in Sources */,
 				B8BD28CC24464A9500C633AB /* UICollectionView+Gaze.swift in Sources */,
 				B8D836C024411CFB003C1A87 /* Pulse.swift in Sources */,
+				B8DFAE782446933100A34BE2 /* GazeEatingUIView.swift in Sources */,
 				B8D836B724411CFB003C1A87 /* TunningView.swift in Sources */,
 				B8D836C524411CFB003C1A87 /* Interpolation.swift in Sources */,
 				B8D836D024411E88003C1A87 /* MainViewController.swift in Sources */,
@@ -513,6 +520,7 @@
 				B8D836B224411CFB003C1A87 /* Extensions.swift in Sources */,
 				B8D836C624411CFB003C1A87 /* LowPassInterpolator.swift in Sources */,
 				B8D836BA24411CFB003C1A87 /* SingleControlDisplayable.swift in Sources */,
+				B8DFAE7A244693D800A34BE2 /* GazeEatingView.swift in Sources */,
 				B8AB9870243FC7E800C8F6F6 /* ShortcutInputView.swift in Sources */,
 				B8D836B124411CFB003C1A87 /* UIHeadGazeEvent.swift in Sources */,
 				B8D836AD24411CFB003C1A87 /* UIHeadGazeViewController.swift in Sources */,
