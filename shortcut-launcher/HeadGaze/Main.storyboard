@@ -55,32 +55,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="6uw-dG-DZ1">
-                                <rect key="frame" x="67.5" y="222.5" width="240" height="222"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="LDf-VX-zUQ">
+                                <rect key="frame" x="16" y="96" width="343" height="233.5"/>
                                 <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j0j-CZ-G5r">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="101.5"/>
+                                        <string key="text">Welcome! If this is your first time running the app, please install the required shortcuts before trying to view your shortcuts.
+
+Gaze duration is hard-coded to 3 seconds.</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONr-H1-r70">
-                                        <rect key="frame" x="0.0" y="0.0" width="240" height="54"/>
+                                        <rect key="frame" x="0.0" y="117.5" width="343" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="8bS-r4-fau"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <inset key="contentEdgeInsets" minX="16" minY="16" maxX="16" maxY="16"/>
-                                        <state key="normal" title="Install Required Shortcuts"/>
+                                        <state key="normal" title="🛠 Install Required Shortcuts"/>
                                         <connections>
                                             <action selector="didSelectInstallShortcutsButton:" destination="bR9-b7-TsP" eventType="touchUpInside" id="Buj-AI-1QG"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WJc-R6-V7o">
-                                        <rect key="frame" x="0.0" y="86" width="240" height="54"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <inset key="contentEdgeInsets" minX="16" minY="16" maxX="16" maxY="16"/>
-                                        <state key="normal" title="Import Shortcuts"/>
-                                        <connections>
-                                            <action selector="didSelectImportButton:" destination="bR9-b7-TsP" eventType="touchUpInside" id="KwE-ug-CgG"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g2k-Tw-9Jw">
-                                        <rect key="frame" x="0.0" y="172" width="240" height="50"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <inset key="contentEdgeInsets" minX="16" minY="-16" maxX="16" maxY="-16"/>
-                                        <state key="normal" title="My Shortcuts"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g2k-Tw-9Jw">
+                                        <rect key="frame" x="0.0" y="183.5" width="343" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="gVJ-H9-aLc"/>
+                                        </constraints>
+                                        <state key="normal" title="My Shortcuts">
+                                            <color key="titleColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="didSelectMyShortcutsButton:" destination="bR9-b7-TsP" eventType="touchUpInside" id="7pm-Pu-9uo"/>
                                         </connections>
@@ -90,8 +95,9 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="6uw-dG-DZ1" firstAttribute="centerY" secondItem="BQJ-G1-AEL" secondAttribute="centerY" id="4qT-Ba-40P"/>
-                            <constraint firstItem="6uw-dG-DZ1" firstAttribute="centerX" secondItem="BQJ-G1-AEL" secondAttribute="centerX" id="zPB-RJ-rAZ"/>
+                            <constraint firstItem="LDf-VX-zUQ" firstAttribute="leadingMargin" secondItem="pdQ-10-ZIl" secondAttribute="leading" constant="16" id="4UL-He-IvU"/>
+                            <constraint firstItem="pdQ-10-ZIl" firstAttribute="trailing" secondItem="LDf-VX-zUQ" secondAttribute="trailingMargin" constant="16" id="Ex0-Jk-Rcb"/>
+                            <constraint firstItem="LDf-VX-zUQ" firstAttribute="topMargin" secondItem="pdQ-10-ZIl" secondAttribute="top" id="KOg-nJ-fDB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="pdQ-10-ZIl"/>
                     </view>

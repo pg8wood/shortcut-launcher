@@ -46,7 +46,7 @@ struct ContentView: View {
     private var importShortcutsButton: AnyView {
         AnyView(
             Button(action: {
-                ShortcutRunner.runShortcut(PackagedShortcut.importShortcuts.shortcut)
+                ShortcutRunner.runShortcut(RequiredShortcut.importShortcuts.shortcut)
             }, label: {
                 Text("Import Shortcuts")
             })

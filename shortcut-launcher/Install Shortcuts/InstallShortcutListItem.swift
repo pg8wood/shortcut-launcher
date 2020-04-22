@@ -16,6 +16,7 @@ struct InstallShortcutListItem: View {
             header
             Text(shortcut.description)
                 .fontWeight(.light)
+                .lineLimit(nil)
             
             // TODO add sample shortcuts for users to see how to use this app's related shortcuts. Add exampleShortcuts list property on UtilityShortcut type for this
             if shortcut.name == "Proxy Keyboard Input to Shortcut Launcher" || shortcut.name == "Choose From List in Shortcut Launcher" {
@@ -82,6 +83,9 @@ struct InstallShortcutListItem: View {
 
 struct InstallShortcutListItem_Previews: PreviewProvider {
     static var previews: some View {
-        InstallShortcutListItem(shortcut: PackagedShortcut.proxyKeyboardInput.shortcut)
+        Group {
+            InstallShortcutListItem(shortcut: RequiredShortcut.proxyKeyboardInput.shortcut)
+            InstallShortcutListItem(shortcut: ExampleShortcut.sampleProxiedInput.shortcut)
+        }
     }
 }

@@ -2,7 +2,7 @@ import UIKit
 
 class UIHeadGaze: UITouch {
 
-    let selectionHoldDuration: TimeInterval = 1
+    let selectionHoldDuration: TimeInterval = 3
 
     private weak var _window: UIWindow?
     private let _receiver: UIView

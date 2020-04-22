@@ -26,6 +26,7 @@ class MainViewController: UIViewController {
             // TODO use a loading indicator or something to convey this state
             switch shortcutImportState {
             case .notImported:
+                title = "Shortcut Setup"
                 break
             case .loading:
                 break
@@ -51,14 +52,9 @@ class MainViewController: UIViewController {
         presentInstallShortcutsView()
     }
     
-    @IBAction func didSelectImportButton(_ sender: UIButton) {
-        ShortcutRunner.runShortcut(PackagedShortcut.importShortcuts.shortcut)
-        shortcutImportState = .loading
-    }
-    
     @IBAction func didSelectMyShortcutsButton(_ sender: UIButton) {
         if shortcuts.isEmpty {
-            ShortcutRunner.runShortcut(PackagedShortcut.importShortcuts.shortcut)
+            ShortcutRunner.runShortcut(RequiredShortcut.importShortcuts.shortcut)
             shortcutImportState = .loading
         } else {
             presentMyShortcutsView()
@@ -67,7 +63,7 @@ class MainViewController: UIViewController {
     
     func presentMyShortcutsView() {
         let runnableShortcuts = shortcuts.filter {
-            let packagedShortcutNames = PackagedShortcut.allCases.map({ $0.name })
+            let packagedShortcutNames = RequiredShortcut.allCases.map({ $0.name })
             
             return !packagedShortcutNames.contains($0.name)
         }
