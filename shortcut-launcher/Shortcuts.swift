@@ -126,7 +126,7 @@ enum ExampleShortcut: CaseIterable {
     case sendMessage
     case sendMessageToContact // TODO need import question
     case sampleProxiedInput
-//    case sampleChooseFromLis
+    case sampleChooseFromLis
     
     var name: String {
         shortcut.name
@@ -152,10 +152,14 @@ enum ExampleShortcut: CaseIterable {
             return UtilityShortcut(name: "Sample Shortcut with Proxied Keyboard Input",
                                    description: "Searches YouTube with the user's input and plays the first result.\n\nNote: This shortcut requires setup using touch. Please follow the shortcut's installation instructions and make sure to enable the permissions. This is required for hands-free operation of this shortcut.",
                                    installationURL: URL(string: "https://www.icloud.com/shortcuts/62889a3e02004a36ba3e5e0b95d01e84")!,
-                                   systemImageName: "message.circle",
-                                   iconColor: .green)
-//        case .sampleChooseFromLis:
-//
+                                   systemImageName: "play.rectangle.fill",
+                                   iconColor: .red)
+        case .sampleChooseFromLis:
+            return UtilityShortcut(name: "Sample Choose from List in Shortcut Launcher",
+                                   description: "A simple example of how to pass choices into Shortcut Launcher.",
+                                   installationURL: URL(string: "https://www.icloud.com/shortcuts/49b744ec7acd451cacf7cd6c14eb7909")!,
+                                   systemImageName: "list.number",
+                                   iconColor: .black)
         }
     }
 }

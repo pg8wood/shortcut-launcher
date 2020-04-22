@@ -17,10 +17,7 @@ struct InstallShortcutsView: View {
     var body: some View {
         ZStack {
             List {
-                Text("For each shortcut you install, please run the shortcut at least using touch. Shortcuts will prompt you to accept permissions and/or set up the shortcut.")
-                    .disabled(true)
-                
-                Section(header: Text("Required Shortcuts").font(.headline), footer: Text("Shortcut Launcher uses these shortcuts to interact with Siri Shortcuts. Make sure you do not edit the names of these shortcuts in the Shortcuts app.")) {
+                Section(header: requiredShortcutsHeader) {
                     ForEach(requiredShortcuts) { shortcut in
                         InstallShortcutListItem(shortcut: shortcut)
                     }
@@ -46,6 +43,15 @@ struct InstallShortcutsView: View {
             Alert(title: Text("Shortcut installation requires touch interaction in the Shortcuts app. You will lose head tracking."))
         }
         .navigationBarTitle("Install Shortcuts", displayMode: .inline)
+    }
+    
+    private var requiredShortcutsHeader: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Required Shortcuts")
+                .font(.headline)
+            Text("Shortcut Launcher uses these shortcuts to interact with Siri Shortcuts. Make sure you do not edit the names of these shortcuts in the Shortcuts app.")
+            Text("For each shortcut you install, please run the shortcut at least once using touch. Shortcuts will prompt you to accept permissions and/or set up the shortcut.")
+        }
     }
 }
 
