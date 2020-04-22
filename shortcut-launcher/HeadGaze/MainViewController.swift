@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import Combine
 
 enum ShortcutImportState {
     case notImported
@@ -40,20 +41,48 @@ class MainViewController: UIViewController, UINavigationControllerDelegate {
     }
 
     var shortcuts: [Shortcut] = []
+    private var disposables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.delegate = self
     }
     
-    @IBAction func didSelectInstallShortcutsButton(_ sender: UIButton) {
-        func presentInstallShortcutsView() {
-            let hostingController = UIHostingController(rootView: InstallShortcutsView())
-            hostingController.title = "Install Shortcuts"
-            
-            navigationController?.pushViewController(hostingController, animated: true)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        observeGetMyShortcutsState()
+    }
+    
+    private func observeGetMyShortcutsState() {
+        guard disposables.isEmpty else {
+            return
         }
-
+        
+        deepLinkHandler.$needsToInstallGetMyShortcuts.sink(receiveValue: { [weak self] needsToInstallGetMyShortcuts in
+            guard needsToInstallGetMyShortcuts, let self = self else {
+                return
+            }
+            
+            let alert = UIAlertController(title: "Could Not Import Shortcuts",
+                                          message: "Please install the \"Get My Shortcuts\" shortcut to import your shortcuts.\nDemo note: this alert is not gazeable.",
+                                          preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Install Required Shortcuts", style: .default, handler: { [weak self] _ in
+                self?.presentInstallShortcutsView()
+            })
+            alert.addAction(okAction)
+            
+            self.present(alert, animated: true)
+        }).store(in: &disposables)
+    }
+    
+    private func presentInstallShortcutsView() {
+        let hostingController = UIHostingController(rootView: InstallShortcutsView())
+        hostingController.title = "Install Shortcuts"
+        
+        navigationController?.pushViewController(hostingController, animated: true)
+    }
+    
+    @IBAction func didSelectInstallShortcutsButton(_ sender: UIButton) {
         presentInstallShortcutsView()
     }
     

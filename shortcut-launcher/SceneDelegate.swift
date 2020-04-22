@@ -20,15 +20,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
    
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-//        presentContentView(in: scene)
+        // TODO: - wrap this up nicely in a SwiftUI View to avoid this hack
+        // It's hacky. Would look way better wrapping the Main view in a SwiftUI host view and passing in the deepLinkHandler and shortcutIntentState as environemnt objects.
+        func installMainViewControllerDependencies() {
+            let trackingContainerViewController = headGazeWindow.rootViewController as! TrackingContainerViewController
+            let navigationController = trackingContainerViewController.children[1] as! UINavigationController
+            let mainViewController = navigationController.viewControllers[0] as! MainViewController
+            mainViewController.deepLinkHandler = deepLinkHandler
+            mainViewController.shortcutIntentState = shortcutIntentState
+        }
         
          if let windowScene = scene as? UIWindowScene {
+            AppConfig.isHeadTrackingEnabled = true
             UIApplication.shared.isIdleTimerDisabled = true
             headGazeWindow = HeadGazeWindow(frame: UIScreen.main.bounds) // TODO: as of now, this particular initializer MUST be called. Maybe do the setup stuff on its frame's didSet?
             headGazeWindow.windowScene = windowScene
             headGazeWindow.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
             self.window = headGazeWindow
             headGazeWindow.makeKeyAndVisible()
+            installMainViewControllerDependencies()
         }
     }
 
@@ -44,9 +54,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let trackingContainerViewController = headGazeWindow.rootViewController as! TrackingContainerViewController
         let navigationController = trackingContainerViewController.children[1] as! UINavigationController
         let mainViewController = navigationController.viewControllers[0] as! MainViewController
-        
-        mainViewController.deepLinkHandler = deepLinkHandler
-        mainViewController.shortcutIntentState = shortcutIntentState
         
         mainViewController.shortcutImportState = .imported(shortcuts: shortcuts)
         mainViewController.presentMyShortcutsView()

@@ -18,14 +18,14 @@ struct InstallShortcutsView: View {
     var body: some View {
         ZStack {
             List {
-                Section(header: requiredShortcutsHeader) {
+                Section(header: requiredShortcutsSectionHeader) {
                     ForEach(requiredShortcuts) { shortcut in
                         InstallShortcutListItem(shortcut: shortcut)
                     }
                     .listRowInsets(EdgeInsets())
                 }
                 
-                Section(header: Text("Example Shortcuts").font(.headline), footer: Text("Shortcuts that show off how this all works. Maybe this footer could link to the website where we have a list of more example shortcuts.")) {
+                Section(header: exampleShortcutsSectionHeader) {
                     ForEach(exampleShortcuts) { shortcut in
                         InstallShortcutListItem(shortcut: shortcut)
                     }
@@ -41,21 +41,30 @@ struct InstallShortcutsView: View {
         }
         .edgesIgnoringSafeArea(.bottom)
         .alert(isPresented: self.$presentTouchAlert) {
-            Alert(title: Text("Shortcut installation requires touch interaction in the Shortcuts app. You will lose head tracking if you continue."), primaryButton: .destructive(Text("Continue")) {
-                AppConfig.isHeadTrackingEnabled = false
-                }, secondaryButton: .cancel(Text("Back to safety")) {
+            Alert(title: Text("Shortcut installation requires touch interaction in the Shortcuts app. You will lose head tracking if you continue."),
+                  message: Text("Demo note: this alert is not gazeable."),
+                  primaryButton: .destructive(Text("Continue")) {
+                    AppConfig.isHeadTrackingEnabled = false
+                },
+                  secondaryButton: .cancel(Text("Back to safety")) {
                     self.presentationMode.wrappedValue.dismiss()
                 })
         }
         .navigationBarTitle("Install Shortcuts", displayMode: .inline)
     }
     
-    private var requiredShortcutsHeader: some View {
+    private var requiredShortcutsSectionHeader: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Required Shortcuts")
                 .font(.headline)
-            Text("Shortcut Launcher uses these shortcuts to interact with Siri Shortcuts. Make sure you do not edit the names of these shortcuts in the Shortcuts app.")
-            Text("For each shortcut you install, please run the shortcut at least once using touch. Shortcuts will prompt you to accept permissions and/or set up the shortcut.")
+            Text("These shortcuts send input to Shortcuts Launcher. Please install them to enable the example shortcuts below. Note that these shortcuts should not be run directly. Instead, use them when building your own shortcuts.")
+        }
+    }
+    
+    private var exampleShortcutsSectionHeader: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Example Shortcuts").font(.headline)
+            Text("Try out some premade shortcuts that use the utility shortcuts you installed above.")
         }
     }
 }
