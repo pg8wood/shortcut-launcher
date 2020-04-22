@@ -21,12 +21,12 @@ struct ContentView: View {
         NavigationView {
             ZStack {
                 contentview
-                    .sheet(isPresented: $shortcutIntentState.isRequestingUserInput, onDismiss: {
-                        ShortcutRunner.openShortcuts()
-                    }, content: {
-                        ShortcutInputView()
-                            .environmentObject(self.shortcutIntentState)
-                    })
+                .sheet(isPresented: $shortcutIntentState.isRequestingUserInput, onDismiss: {
+                    ShortcutRunner.openShortcuts()
+                }, content: {
+                    ShortcutInputView()
+                        .environmentObject(self.shortcutIntentState)
+                })
                 
                 if showInvalidShortcutAlert {
                     GazeEatingView()

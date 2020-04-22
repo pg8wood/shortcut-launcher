@@ -9,10 +9,11 @@
 import SwiftUI
 
 struct InstallShortcutsView: View {
+    @Environment(\.presentationMode) var presentationMode
+    @State private var presentTouchAlert = true
+    
     private let requiredShortcuts = RequiredShortcut.allCases.map { $0.shortcut }
     private let exampleShortcuts = ExampleShortcut.allCases.map { $0.shortcut }
-    
-    @State private var presentTouchAlert = true
     
     var body: some View {
         ZStack {
@@ -40,7 +41,11 @@ struct InstallShortcutsView: View {
         }
         .edgesIgnoringSafeArea(.bottom)
         .alert(isPresented: self.$presentTouchAlert) {
-            Alert(title: Text("Shortcut installation requires touch interaction in the Shortcuts app. You will lose head tracking."))
+            Alert(title: Text("Shortcut installation requires touch interaction in the Shortcuts app. You will lose head tracking if you continue."), primaryButton: .destructive(Text("Continue")) {
+                AppConfig.isHeadTrackingEnabled = false
+                }, secondaryButton: .cancel(Text("Back to safety")) {
+                    self.presentationMode.wrappedValue.dismiss()
+                })
         }
         .navigationBarTitle("Install Shortcuts", displayMode: .inline)
     }

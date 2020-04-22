@@ -16,7 +16,7 @@ enum ShortcutImportState {
     case error
 }
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, UINavigationControllerDelegate {
     
     var shortcutIntentState: ShortcutIntentState!
     var deepLinkHandler: DeepLinkHandler!
@@ -40,6 +40,11 @@ class MainViewController: UIViewController {
     }
 
     var shortcuts: [Shortcut] = []
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationController?.delegate = self
+    }
     
     @IBAction func didSelectInstallShortcutsButton(_ sender: UIButton) {
         func presentInstallShortcutsView() {
@@ -73,5 +78,18 @@ class MainViewController: UIViewController {
             .environmentObject(deepLinkHandler)
         let hostingController = UIHostingController(rootView: contentView)
         present(hostingController, animated: true)
+    }
+    
+    // MARK: - UINavigationControllerDelegate
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        guard let coordinator = navigationController.topViewController?.transitionCoordinator else {
+            return
+        }
+        
+        coordinator.notifyWhenInteractionChanges { (context) in
+            if !context.isCancelled && viewController == self {
+                AppConfig.isHeadTrackingEnabled = true
+            }
+        }
     }
 }
