@@ -52,15 +52,17 @@ struct InstallShortcutListItem: View {
                 .cornerRadius(10)
             
             Text(shortcut.name)
-                .lineLimit(nil)
+                .lineLimit(2)
                 .font(.system(size: 18, weight: .bold))
                 .multilineTextAlignment(.leading)
+                .minimumScaleFactor(0.5)
+                .padding(.horizontal, 4)
             
             Spacer()
             
             installButton
         }
-        .frame(minHeight: textHeight, maxHeight: 75)
+        .frame(maxWidth: .infinity, minHeight: textHeight, maxHeight: 75)
     }
     
     private var installButton: some View {
@@ -85,7 +87,7 @@ struct InstallShortcutListItem: View {
 struct InstallShortcutListItem_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            InstallShortcutListItem(shortcut: RequiredShortcut.proxyKeyboardInput.shortcut)
+            InstallShortcutListItem(shortcut: RequiredShortcut.importShortcuts.shortcut)
             InstallShortcutListItem(shortcut: ExampleShortcut.sendMessage.shortcut)
             InstallShortcutListItem(shortcut: ExampleShortcut.sampleProxiedInput.shortcut)
         }
