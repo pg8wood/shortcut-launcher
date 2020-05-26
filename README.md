@@ -13,11 +13,12 @@ Bundles proxying logic and enables app-side or Shortcuts-side error handling int
 
 Includes sample shortcuts using the bundled shortcuts.
 
-<div align=center>
+<div>
 	<img src="docs/shortcut-installation-1.PNG" width=40% />
 	<img src="docs/shortcut-installation-2.PNG" width=40% />
 </div>
 
 ### Proxied error recovery
 Allows the user to recover from a shortcut error in the proxied app. This is particularly useful when using the app in a hands-free configuration.
+<br />
 <img src="docs/error-state.PNG" width=40% />
