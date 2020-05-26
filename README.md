@@ -5,11 +5,13 @@ A test project that proxies user input outside of the Shortcuts app, adding pote
 # Features
 
 ### Import the user's shortcuts
+Import shortcuts and allow the user to launch them from Shortcut Launcher.
 <img src="docs/my-shortcuts.jpeg" width=40% />
 
 ### Proxy input away from Shortcuts
-	- Bundles proxying loginc and enables app-side or Shortcut-side error handling into a premade shortcut that's easy to run from other shortcuts
-	- Includes sample shortcuts using the bundled shortcuts
+Bundles proxying logic and enables app-side or Shortcuts-side error handling into a premade shortcut that's easy to run from other shortcuts.
+
+Includes sample shortcuts using the bundled shortcuts.
 
 <div align=center>
 	<img src="docs/shortcut-installation-1.PNG" width=40% />
@@ -17,5 +19,5 @@ A test project that proxies user input outside of the Shortcuts app, adding pote
 </div>
 
 ### Proxied error recovery
-	- Allows the user to recover from a shortcut error in the proxied app. This is particularly useful when using the app in a hands-free configuration.
+Allows the user to recover from a shortcut error in the proxied app. This is particularly useful when using the app in a hands-free configuration.
 <img src="docs/error-state.PNG" width=40% />
